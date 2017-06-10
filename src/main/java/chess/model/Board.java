@@ -6,6 +6,10 @@ public class Board {
 	private List<Chess> listBlack;
 	private List<Chess> listWhile;
 	
+	public Board() {
+		
+	}
+	
 	public void choose(Chess chess) {
 		
 	}
@@ -21,6 +25,8 @@ public class Board {
 	public boolean checkPosibleMoveWhite() {
 		return false;
 	}
+	
+	
 	
 	public List<Chess> getListBlack() {
 		return listBlack;

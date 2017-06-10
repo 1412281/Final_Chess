@@ -1,16 +1,15 @@
 package chess.model;
 import java.util.List;
 
-public class Chess {
+public abstract class Chess {
 	
 	private boolean team;
 	private int id;
 	private boolean live = true;
 	private Position pos;
 	
-	public List<Position> getPosibleMove() {
-		return null;
-	}
+	public abstract List<Position> getPosibleMove();
+	
 	
 	public boolean getTeam() {
 		return team;
