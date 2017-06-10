@@ -10,20 +10,18 @@ public class PlayController {
 	
 	private Board board;
 	
-	PlayController() {
+	public PlayController() {
 		board = new Board();
 	}
 	
 	
-	public List<Position> getListPosibleMove(Position pos) {
+	public List<Square> getListPosibleMove(Square square) {
 		
-		List<Position> list = board.getListPosibleMove(pos);
-		
-		return list;
+		return board.getListPosibleMoveFrom(square);
 	}
 	
 
-	public void sendPositionChoice(Position pos) {
+	public void sendPositionChoice(Square square) {
 		
 	}
 }

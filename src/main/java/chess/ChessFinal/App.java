@@ -1,20 +1,13 @@
 package chess.ChessFinal;
 import java.util.List;
 
-import chess.model.*;
+import chess.controller.*;
 
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main( String[] args )
     {
-    	ChessBishop bishop = new ChessBishop();
-    	List<Position> list = bishop.getPosibleMove();
-    	System.out.println(list.size());
-    	
-        
+    	PlayController playController = new PlayController();
+        playController.getListPosibleMove(square)
     }
 }

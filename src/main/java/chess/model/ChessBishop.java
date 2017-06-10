@@ -10,20 +10,19 @@ public class ChessBishop extends Chess {
 	final int BOARD_MAX = 8;
 	
 	@Override
-	public List<Position> getPosibleMove() {
-		List<Position> list = new ArrayList<Position>();
-		Position pos = this.getPos();
-		pos.setPos(5, 5);
-		list.addAll(moveTopLeft(pos));
-		list.addAll(moveTopRight(pos));
+	public List<Point> getPosibleMove(Point point) {
+		List<Point> list = new ArrayList<Point>();
+		
+		list.addAll(moveTopLeft(point));
+		list.addAll(moveTopRight(point));
 		
 		return list;
 	}
 	
 	
-	public List<Position> moveTopLeft(Position pos) {
-		Position curPos = new Position(pos);
-		List<Position> list = new ArrayList<Position>();
+	public List<Point> moveTopLeft(Point point) {
+		Point curPos = new Point(point);
+		List<Point> list = new ArrayList<Point>();
 		
 		while (curPos.getX() < BOARD_MAX && curPos.getY() < BOARD_MAX) {
 			curPos.setPos(curPos.getX() + 1, curPos.getY() + 1);
@@ -33,9 +32,9 @@ public class ChessBishop extends Chess {
 		return list;
 	}
 	
-	public List<Position> moveTopRight(Position pos) {
-		Position curPos = new Position(pos);
-		List<Position> list = new ArrayList<Position>();
+	public List<Point> moveTopRight(Point point) {
+		Point curPos = new Point(point);
+		List<Point> list = new ArrayList<Point>();
 		
 		while (curPos.getX() > BOARD_MIN && curPos.getY() < BOARD_MAX) {
 			curPos.setPos(curPos.getX() - 1, curPos.getY() + 1);

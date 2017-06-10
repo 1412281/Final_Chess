@@ -6,7 +6,7 @@ import java.util.List;
 public class ChessRook extends Chess {
 
 	@Override
-	public List<Position> getPosibleMove() {
+	public List<Point> getPosibleMove() {
 		// TODO Auto-generated method stub
 		return null;
 	}

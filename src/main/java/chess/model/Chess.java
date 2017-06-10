@@ -12,7 +12,7 @@ public abstract class Chess {
 	private Team team;
 	private boolean live = true;
 	
-	public abstract List<Position> getPosibleMove();
+	public abstract List<Point> getPosibleMove(Point point);
 	
 	
 	public boolean isLive() {
