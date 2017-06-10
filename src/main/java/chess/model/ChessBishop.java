@@ -1,5 +1,6 @@
 package chess.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 //bồ
@@ -7,29 +8,42 @@ public class ChessBishop extends Chess {
 
 	final int BOARD_MIN = 1;
 	final int BOARD_MAX = 8;
-
+	
 	@Override
 	public List<Position> getPosibleMove() {
-		List<Position> list = null;
+		List<Position> list = new ArrayList<Position>();
 		Position pos = this.getPos();
-		
-		moveTopLeft(pos, list);
-		moveTopRight(pos, list);
+		pos.setPos(5, 5);
+		list.addAll(moveTopLeft(pos));
+		list.addAll(moveTopRight(pos));
 		
 		return list;
 	}
 	
-	private void moveTopLeft(Position cur_pos, List<Position> list) {
-		cur_pos.setPos(cur_pos.getX() + 1, cur_pos.getY() + 1);
-		list.add(cur_pos);
-		if (cur_pos.getX() < BOARD_MAX && cur_pos.getY() < BOARD_MAX)
-			moveTopLeft(cur_pos, list);
+	
+	public List<Position> moveTopLeft(Position pos) {
+		Position curPos = new Position(pos);
+		List<Position> list = new ArrayList<Position>();
+		
+		while (curPos.getX() < BOARD_MAX && curPos.getY() < BOARD_MAX) {
+			curPos.setPos(curPos.getX() + 1, curPos.getY() + 1);
+			System.out.println(curPos.toString());
+			list.add(curPos);
+		}
+		return list;
 	}
 	
-	private void moveTopRight(Position cur_pos, List<Position> list) {
-		cur_pos.setPos(cur_pos.getX() - 1, cur_pos.getY() + 1);
-		list.add(cur_pos);
-		if (cur_pos.getX() < BOARD_MAX && cur_pos.getY() < BOARD_MAX)
-			moveTopLeft(cur_pos, list);
+	public List<Position> moveTopRight(Position pos) {
+		Position curPos = new Position(pos);
+		List<Position> list = new ArrayList<Position>();
+		
+		while (curPos.getX() > BOARD_MIN && curPos.getY() < BOARD_MAX) {
+			curPos.setPos(curPos.getX() - 1, curPos.getY() + 1);
+			System.out.println(curPos.toString());
+			list.add(curPos);
+		}
+		return list;
 	}
+	
+	
 }

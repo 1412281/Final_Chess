@@ -1,16 +1,25 @@
 package chess.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Board {
-	private List<Chess> listBlack;
-	private List<Chess> listWhile;
+	private List<Chess> listChess = new ArrayList<Chess>();
+	private Position[][] pos = new Position[8][8];
 	
 	public Board() {
+//		khởi tạo 64 ô
+		for(int i = 1; i < 9; i++)
+			for(int j = 1; j < 9; j++) {
+				listPos.add(new Position(i, j));
+			}
 		
 	}
 	
-	public void choose(Chess chess) {
+	
+	public List<Position> getListPosibleMove(Position pos) {
+		
+		List<Position> list = new Array
 		
 	}
 	
@@ -18,7 +27,7 @@ public class Board {
 		return false;
 	}
 	
-	public boolean checkPosibleMoveBlack(){
+	public boolean checkPosibleMoveBlack(Chess chess){
 		return false; 
 	}
 	
@@ -36,11 +45,20 @@ public class Board {
 		this.listBlack = listBlack;
 	}
 	
-	public List<Chess> getListWhile() {
-		return listWhile;
+	public List<Chess> getListWhite() {
+		return listWhite;
 	}
 	
-	public void setListWhile(List<Chess> listWhile) {
-		this.listWhile = listWhile;
+	public void setListWhite(List<Chess> listWhile) {
+		this.listWhite = listWhile;
+	}
+
+	public Chess getChessInPos(Position pos) {
+		for(int i = 0; i < listWhite.size(); i++)
+		{
+			if (listWhite.get(i).isLive() && listWhite.get(i).getPos().equal(pos))
+				return listWhite.get(i);
+		}
+		return null;
 	}
 }
