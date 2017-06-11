@@ -1,9 +1,7 @@
 package chess.controller;
-import java.util.ArrayList;
 import java.util.List;
 
 import chess.model.*;
-import chess.model.Chess.Team;
 
 
 public class PlayController {
@@ -15,13 +13,13 @@ public class PlayController {
 	}
 	
 	
-	public List<Square> getListPosibleMove(Square square) {
+	public List<Point> getListPosibleMove(Point point) {
 		
-		return board.getListPosibleMoveFrom(square);
+		return board.getListPosibleMoveFrom(point);
 	}
 	
 
-	public void sendPositionChoice(Square square) {
+	public void sendPositionChoice(Point point) {
 		
 	}
 }

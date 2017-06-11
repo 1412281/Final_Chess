@@ -3,16 +3,22 @@ package chess.model;
 import java.util.ArrayList;
 import java.util.List;
 
+
 //tốt
 public class ChessPawn extends Chess {
 
+
+	public ChessPawn(Team team) {
+		super(team);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public List<Point> getPosibleMove(Point point) {
 		List<Point> list = new ArrayList<Point>();
 		/*Kiểm tra và lấy từ 3 hướng có thể đi*/
 		switch (this.team) {
-		case BLACK:
+		case WHITE:
 			list.addAll(couldMoveToward(point, 0 ,-1));//lên
 			list.addAll(couldMoveToward(point,-1 ,-1));//trái
 			list.addAll(couldMoveToward(point, 1 ,-1));//phải
@@ -22,7 +28,7 @@ public class ChessPawn extends Chess {
 			}
 			break;
 
-		case WHITE:
+		case BLACK:
 			list.addAll(couldMoveToward(point, 0 , 1));//xuống
 			list.addAll(couldMoveToward(point,-1 , 1));//trái
 			list.addAll(couldMoveToward(point, 1 , 1));//phải
@@ -39,12 +45,12 @@ public class ChessPawn extends Chess {
 	
 	public static void main(String[] args){
 		System.out.println("Bishop");
-		Chess chess = new ChessPawn();
+		Chess chess = new ChessPawn(Team.BLACK);
 		
 		chess.setTeam(Team.BLACK);
 		
 		// test ở vị trí bất kì
 		List<Point> list  =  chess.getPosibleMove(new Point(1, 6));
-		for(Point item:list) item.printposition();
+		for(Point item:list) System.out.println(item.toString());
 	}
 }

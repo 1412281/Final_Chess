@@ -14,7 +14,10 @@ public abstract class Chess {
 	}
 	
 	protected Team team;
-	protected boolean live = true;
+	
+	public Chess(Team team) {
+		this.team = team;
+	}
 	
 	public abstract List<Point> getPosibleMove(Point point);
 	
@@ -61,14 +64,7 @@ public abstract class Chess {
 			}
 		}
 	}
-	
-	public boolean isLive() {
-		return live;
-	}
-	public void setLive(boolean live) {
-		this.live = live;
-	}
-	
+		
 	
 	public Team getTeam() {
 		return team;
