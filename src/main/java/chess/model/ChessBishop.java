@@ -6,42 +6,29 @@ import java.util.List;
 //bồ
 public class ChessBishop extends Chess {
 
-	final int BOARD_MIN = 1;
-	final int BOARD_MAX = 8;
+	
 	
 	@Override
 	public List<Point> getPosibleMove(Point point) {
 		List<Point> list = new ArrayList<Point>();
 		
-		list.addAll(moveTopLeft(point));
-		list.addAll(moveTopRight(point));
+		/*Kiểm tra và lấy từ 4 hướng chéo có thể đi
+		 * Quân tượng thì mỗi hướng có nhiều lựa chọn
+		 * */
+		list.addAll(couldMoveToward_ManyChoices(point,-1 ,-1)); // trái đi lên
+		list.addAll(couldMoveToward_ManyChoices(point,-1 , 1)); // trái đi xuống
+		list.addAll(couldMoveToward_ManyChoices(point, 1 , -1));// phải đi lên
+		list.addAll(couldMoveToward_ManyChoices(point,1 ,1));   // phải đi xuống
 		
 		return list;
 	}
 	
-	
-	public List<Point> moveTopLeft(Point point) {
-		Point curPos = new Point(point);
-		List<Point> list = new ArrayList<Point>();
-		
-		while (curPos.getX() < BOARD_MAX && curPos.getY() < BOARD_MAX) {
-			curPos.setPos(curPos.getX() + 1, curPos.getY() + 1);
-			System.out.println(curPos.toString());
-			list.add(curPos);
-		}
-		return list;
-	}
-	
-	public List<Point> moveTopRight(Point point) {
-		Point curPos = new Point(point);
-		List<Point> list = new ArrayList<Point>();
-		
-		while (curPos.getX() > BOARD_MIN && curPos.getY() < BOARD_MAX) {
-			curPos.setPos(curPos.getX() - 1, curPos.getY() + 1);
-			System.out.println(curPos.toString());
-			list.add(curPos);
-		}
-		return list;
+	public static void main(String[] args){
+		System.out.println("Bishop");
+		ChessBishop bishop = new ChessBishop();
+		// test ở vị trí bất kì
+		List<Point> list  =  bishop.getPosibleMove(new Point(5, 3));
+		for(Point item:list) item.printposition();
 	}
 	
 	

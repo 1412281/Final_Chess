@@ -40,4 +40,8 @@ public class Point {
 		this.y = y;
 	}
 
+	public void printposition() {
+		System.out.println("("+x+","+y+")");
+	}
+
 }
