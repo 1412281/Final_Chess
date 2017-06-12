@@ -1,5 +1,8 @@
 package chess.model;
 
+import chess.controller.PlayController;
+import chess.model.Chess.Team;
+
 public class AI {
 	public static enum Level {
 		Easy, Normal, Hard
@@ -7,14 +10,15 @@ public class AI {
 
 	private Player player;
 	private Level level;
-
+	private PlayController playController;
 	public AI() {
-
+		
 	}
 
-	public AI(Level level) {
-		player.setName(level.toString() + "AI");
+	public AI(Level level, Team team, PlayController playController) {
+		player = new Player(level.toString() + "AI", team);
 		this.level = level;
+		this.setPlayController(playController);
 	}
 
 	public void takeAMove() {
@@ -32,8 +36,7 @@ public class AI {
 	}
 
 	private void takeEasy() {
-		// TODO Auto-generated method stub
-		
+		playController.getBoard();
 	}
 
 	private void takeHard() {
@@ -52,6 +55,14 @@ public class AI {
 
 	public void setPlayer(Player player) {
 		this.player = player;
+	}
+
+	public PlayController getPlayController() {
+		return playController;
+	}
+
+	public void setPlayController(PlayController playController) {
+		this.playController = playController;
 	}
 
 }
