@@ -34,8 +34,7 @@ public class Board {
 		square[1][0].setChess(new ChessKnight(Team.WHITE));
 		square[6][0].setChess(new ChessKnight(Team.WHITE));
 		// khởi tạo 2 bồ
-		// square[2][0].setChess(new ChessBishop(Team.WHITE));
-		square[4][4].setChess(new ChessBishop(Team.WHITE)); // TEST
+		 square[2][0].setChess(new ChessBishop(Team.WHITE));
 		square[5][0].setChess(new ChessBishop(Team.WHITE));
 		// khởi tạo hậu
 		square[4][0].setChess(new ChessQueen(Team.WHITE));
@@ -62,7 +61,26 @@ public class Board {
 		square[3][7].setChess(new ChessKing(Team.BLACK));
 
 	}
-
+	
+	// lấy danh dách tất cả quân cờ còn lại của 1 team -> AI
+	public List<Point> getListTeam(Team team) {
+		List<Point> list = new ArrayList<Point>();
+		for (int i = 0; i < 8; i++)
+			for (int j = 0; j < 8; j++) {
+				if (square[i][j].getChess() != null)
+					if (square[i][j].getChess().getTeam().equals(team))
+						list.add(new Point(i, j));
+			}
+		return list;
+	}
+	
+	public void move(Point fromPoint, Point toPoint) {
+		Board.square[toPoint.getX()][toPoint.getY()]
+				.setChess(Board.square[fromPoint.getX()][fromPoint.getY()].getChess());
+		Board.square[fromPoint.getX()][fromPoint.getY()].setChess(null);
+	}
+	
+	
 	/*
 	 * Hàm trả về các vị trí hợp lệ có thể đi từ vị trí đã chọn trên bàn cờ Các
 	 * bước thực hiện: +Lấy danh sách các điểm của quân cờ đang chọn có thể đi,
@@ -168,6 +186,7 @@ public class Board {
 
 				// nếu 2 ô đang xét liền kề nhau thì chắc chắn không có ai cản
 				if (1 == Math.abs(point.getX() - fromPoint.getX()) || 1 == Math.abs(point.getY() - fromPoint.getY())) {
+					result.add(point);
 					continue;
 				}
 				/*
@@ -177,10 +196,10 @@ public class Board {
 				int Xvector = 0;
 				int Yvector = 0;
 				if (fromPoint.getX() != point.getX()) {
-					Xvector = (fromPoint.getX() - point.getX()) / Math.abs(point.getX() - fromPoint.getX());
+					Xvector = (point.getX() - fromPoint.getX()) / Math.abs(point.getX() - fromPoint.getX());
 				}
 				if (fromPoint.getY() != point.getY()) {
-					Yvector = (fromPoint.getY() - point.getY()) / Math.abs(point.getY() - fromPoint.getY());
+					Yvector = (point.getY() - fromPoint.getY()) / Math.abs(point.getY() - fromPoint.getY());
 				}
 
 				int x = fromPoint.getX() + Xvector;
@@ -190,7 +209,7 @@ public class Board {
 				 * bước 2: cộng dồn vector này, duyệt các điểm nằm "giữa" đến
 				 * khi "chạm" điểm đích
 				 */
-				while (x != point.getX() && y != point.getY()) {
+				while (!(x == point.getX() && y == point.getY())) {
 					Point tempPoint = new Point(x, y);
 					if (null == this.getChessFrom(tempPoint)) {// nếu điểm này
 																// không có quân
@@ -244,9 +263,10 @@ public class Board {
 
 	public static void main(String[] args) {
 		Board newboard = new Board();
-		Point point = new Point(5, 5);
+		Point point = new Point(3, 3);
 		System.out.println(point.toString());
-		square[point.getX()][point.getY()].setChess(new ChessPawn(Team.WHITE));
+		square[point.getX()][point.getY()].setChess(new ChessQueen(Team.WHITE));
+		
 		List<Point> list = newboard.getListPosibleMoveFrom(point);
 		System.out.println(list.size());
 
