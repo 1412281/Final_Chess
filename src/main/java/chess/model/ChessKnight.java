@@ -8,6 +8,7 @@ public class ChessKnight extends Chess {
 
 	public ChessKnight(Team team) {
 		super(team);
+		super.setValue(30);
 		// TODO Auto-generated constructor stub
 	}
 

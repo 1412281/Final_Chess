@@ -8,7 +8,7 @@ import java.util.List;
 public abstract class Chess {
 	static final int BOARD_MIN = 0;
 	static final int BOARD_MAX = 7;
-	
+	private int value = 0;
 	public enum Team {
 		BLACK, WHITE	
 	}
@@ -79,5 +79,13 @@ public abstract class Chess {
 	}
 
 	public abstract String toString();
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
+	}
 }
 

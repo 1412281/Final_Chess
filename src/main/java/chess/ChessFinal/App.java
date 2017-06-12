@@ -10,7 +10,7 @@ public class App
     public static void main( String[] args )
     {
     	PlayController playController = new PlayController();
-    	AI ai_1 = new AI(Level.Easy, Team.BLACK, playController);
+    	AI ai_1 = new AI(Level.Normal, Team.BLACK, playController);
     	AI ai_2 = new AI(Level.Easy, Team.WHITE, playController);
     	
     	int time = 1;
@@ -19,9 +19,11 @@ public class App
     		
     		switch (playController.getTeamTurn()) {
     		case BLACK:
+    			System.out.println("BLACK: ");
     			ai_1.takeAMove();
     			break;
     		case WHITE:
+    			System.out.println("WHITE: ");
     			ai_2.takeAMove();
     			break;
     		}

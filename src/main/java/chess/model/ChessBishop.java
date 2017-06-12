@@ -8,6 +8,7 @@ public class ChessBishop extends Chess {
 
 	public ChessBishop(Team team) {
 		super(team);
+		super.setValue(30);
 	}
 
 	@Override

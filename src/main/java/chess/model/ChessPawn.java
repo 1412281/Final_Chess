@@ -10,7 +10,7 @@ public class ChessPawn extends Chess {
 
 	public ChessPawn(Team team) {
 		super(team);
-		// TODO Auto-generated constructor stub
+		super.setValue(10);
 	}
 
 	@Override

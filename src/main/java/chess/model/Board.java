@@ -15,9 +15,11 @@ public class Board {
 
 	public Board() {
 		initChess();
-
 	}
 
+	public Board(Square[][] square) {
+		Board.square = square;
+	}
 	private void initChess() {
 		for (int i = 0; i < 8; i++)
 			for (int j = 0; j < 8; j++) {
@@ -63,6 +65,7 @@ public class Board {
 
 	}
 
+	
 	// láº¥y danh dĂ¡ch táº¥t cáº£ quĂ¢n cá»� cĂ²n láº¡i cá»§a 1 team
 	public List<Point> getListTeam(Team team) {
 		List<Point> list = new ArrayList<Point>();
@@ -163,6 +166,7 @@ public class Board {
 	
 
 	public void move(Point fromPoint, Point toPoint) {
+		
 		Board.square[toPoint.getX()][toPoint.getY()]
 				.setChess(Board.square[fromPoint.getX()][fromPoint.getY()].getChess());
 		Board.square[fromPoint.getX()][fromPoint.getY()].setChess(null);

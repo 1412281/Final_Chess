@@ -8,7 +8,7 @@ public class ChessQueen extends Chess {
 
 	public ChessQueen(Team team) {
 		super(team);
-		// TODO Auto-generated constructor stub
+		super.setValue(900);
 	}
 
 	/* Bản chất Queen là một Super King */

@@ -9,7 +9,8 @@ public class PlayController {
 
 	private Board board;
 	private Team teamTurn;
-
+	//last move
+	private Point lastFromPointMove, lastToPointMove;
 	public PlayController() {
 		board = new Board();
 		setTeamTurn(Team.WHITE);
@@ -23,11 +24,16 @@ public class PlayController {
 		return board.getListPosibleMoveFrom(point);
 	}
 
+	public void unMove() {
+		
+		sendMove(this.lastToPointMove, this.lastFromPointMove);
+		
+	}
 	public void sendMove(Point fromPoint, Point toPoint) {
-
-		board.move(fromPoint, toPoint);
-
 		nextTurn();
+		board.move(fromPoint, toPoint);
+		this.lastFromPointMove = fromPoint;
+		this.lastToPointMove = toPoint;
 	}
 
 	private void nextTurn() {

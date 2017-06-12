@@ -8,7 +8,7 @@ public class ChessKing extends Chess {
 
 	public ChessKing(Team team) {
 		super(team);
-		// TODO Auto-generated constructor stub
+		super.setValue(90);
 	}
 
 	@Override
