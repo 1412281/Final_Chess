@@ -78,6 +78,6 @@ public abstract class Chess {
 		this.team = team;
 	}
 
-
+	public abstract String toString();
 }
 

@@ -16,6 +16,9 @@ public class PlayController {
 		setTeamTurn(Team.WHITE);
 	}
 	
+	public List<Point> getListTeam(Team team) {
+		return board.getListTeam(team);
+	}
 	
 	public List<Point> getListPosibleMoveFrom(Point point) {
 		return board.getListPosibleMoveFrom(point);
@@ -49,10 +52,13 @@ public class PlayController {
 	public Square[][] getBoard() {
 		return board.getBoard();
 	}
-	
+	int t = 0;
 	public boolean notWin() {
-		// TODO Auto-generated method stub
-		return false;
+		if (t < 10)// TODO Auto-generated method stub
+			return true;
+		else {
+			return false;
+		}
 	}
 	
 }

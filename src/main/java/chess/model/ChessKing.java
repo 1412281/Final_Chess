@@ -36,4 +36,9 @@ public class ChessKing extends Chess {
 			System.out.println(item.toString());
 	}
 
+	@Override
+	public String toString() {
+		return "King";
+	}
+
 }

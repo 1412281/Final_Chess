@@ -53,4 +53,9 @@ public class ChessPawn extends Chess {
 		List<Point> list  =  chess.getPosibleMove(new Point(1, 6));
 		for(Point item:list) System.out.println(item.toString());
 	}
+
+	@Override
+	public String toString() {
+		return "Pawn";
+	}
 }

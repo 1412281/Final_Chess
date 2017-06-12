@@ -35,4 +35,9 @@ public class ChessBishop extends Chess {
 			System.out.println(item.toString());
 	}
 
+	@Override
+	public String toString() {
+		return "Bishop";
+	}
+
 }

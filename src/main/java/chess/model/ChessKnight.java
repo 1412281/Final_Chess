@@ -35,4 +35,9 @@ public class ChessKnight extends Chess {
 		for (Point item : list)
 			System.out.println(item.toString());
 	}
+
+	@Override
+	public String toString() {
+		return "Knight";
+	}
 }
