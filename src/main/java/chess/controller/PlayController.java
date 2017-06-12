@@ -27,6 +27,8 @@ public class PlayController {
 
 	public void sendMove(Point fromPoint, Point toPoint) {
 		
+		board.move(fromPoint, toPoint);
+		
 		nextTurn();
 	}
 
@@ -54,11 +56,15 @@ public class PlayController {
 	}
 	int t = 0;
 	public boolean notWin() {
-		if (t < 10)// TODO Auto-generated method stub
+		if (t < 10) { 
+			t++;
 			return true;
+			
+		}
 		else {
 			return false;
 		}
+		
 	}
 	
 }

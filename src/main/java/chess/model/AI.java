@@ -47,10 +47,10 @@ public class AI {
 		while (true) {
 			Random ran = new Random();
 			List<Point> listTeam = playController.getListTeam(player.getTeam());
-			int iteam = ran.nextInt(listTeam.size() - 1);
+			int iteam = ran.nextInt(listTeam.size());
 			List<Point> listMove = playController.getListPosibleMoveFrom(listTeam.get(iteam));
 			if (listMove.isEmpty()) continue;
-			int iMove = ran.nextInt(listMove.size() - 1);
+			int iMove = ran.nextInt(listMove.size());
 			String teamString = player.getTeam() == Team.BLACK ? "BLACK: " : "WHITE: ";
 			System.out.println(teamString + square[listTeam.get(iteam).getX()][listTeam.get(iteam).getY()].getChess().toString());
 			System.out.println(listTeam.get(iteam) + " => " + listMove.get(iMove));
@@ -60,15 +60,17 @@ public class AI {
 		}
 	}
 
+	private void takeNormal() {
+		// TODO Auto-generated method stub
+
+	}
+	
 	private void takeHard() {
 		// TODO Auto-generated method stub
 
 	}
 
-	private void takeNormal() {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	public Player getPlayer() {
 		return player;
