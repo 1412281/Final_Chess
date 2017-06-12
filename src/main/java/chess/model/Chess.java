@@ -15,6 +15,10 @@ public abstract class Chess {
 	
 	protected Team team;
 	
+	public Chess() {
+		
+	}
+	
 	public Chess(Team team) {
 		this.team = team;
 	}
