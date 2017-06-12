@@ -9,6 +9,9 @@ public class Board {
 
 	private static Square[][] square = new Square[8][8];
 
+	public Square[][] getBoard() {
+		return square.clone();
+	}
 	public Board() {
 		initChess();
 
@@ -241,9 +244,9 @@ public class Board {
 
 	public static void main(String[] args) {
 		Board newboard = new Board();
-		Point point = new Point(4, 4);
+		Point point = new Point(5, 5);
 		System.out.println(point.toString());
-		square[point.getX()][point.getY()].setChess(new ChessQueen(Team.WHITE));
+		square[point.getX()][point.getY()].setChess(new ChessPawn(Team.WHITE));
 		List<Point> list = newboard.getListPosibleMoveFrom(point);
 		System.out.println(list.size());
 

@@ -4,6 +4,15 @@ public class Player {
 	private String name;
 	private String ipAdress;
 	
+	public Player(String name) {
+		this.name = name;
+	}
+	
+	public Player(String name, String ipAdress) {
+		this.name = name;
+		this.ipAdress = ipAdress;
+	}
+	
 	public String getName() {
 		return name;
 	}

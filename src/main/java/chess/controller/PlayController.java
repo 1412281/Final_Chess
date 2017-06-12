@@ -14,12 +14,11 @@ public class PlayController {
 	
 	
 	public List<Point> getListPosibleMove(Point point) {
-		
 		return board.getListPosibleMoveFrom(point);
 	}
 	
 
 	public void sendPositionChoice(Point point) {
-		
+		board.sendPositionChoice(point);
 	}
 }
