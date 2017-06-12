@@ -26,7 +26,7 @@ public class App
     			break;
     		}
     	}
-    	String teamString = playController.checkWin() == Team.BLACK ? "BLACK" : "WHITE";
+    	String teamString = playController.checkWin() == Team.WHITE ? "WHITE" : "BLACK";
     	System.out.println("WIN => " + teamString);
     }
     

@@ -40,7 +40,7 @@ public class Board {
 		// khá»Ÿi táº¡o háº­u
 		square[4][0].setChess(new ChessQueen(Team.WHITE));
 		// khá»Ÿi táº¡o vua
-		// square[3][0].setChess(new ChessKing(Team.WHITE));
+		 square[3][0].setChess(new ChessKing(Team.WHITE));
 
 		// khá»Ÿi táº¡o quĂ¢n Ä�EN
 		// khá»Ÿi táº¡o 8 tá»‘t
@@ -160,18 +160,7 @@ public class Board {
 		return false;
 	}
 
-	public Team checkWin() {
-		Team team = Team.WHITE;
-
-		if (isKing_Checkmate(team) && haveNoMove(team))
-			return team;
-		
-		team = Team.BLACK;
-		if (isKing_Checkmate(team) && haveNoMove(team))
-			return team;
-
-		return null;
-	}
+	
 
 	public void move(Point fromPoint, Point toPoint) {
 		Board.square[toPoint.getX()][toPoint.getY()]
@@ -396,8 +385,17 @@ public class Board {
 		return square[point.getX()][point.getY()].getChess();
 	}
 
-	public boolean checkWin(Team team) {
-		return false;
+	public Team checkWin() {
+		Team team = Team.WHITE;
+
+		if (isKing_Checkmate(team) && haveNoMove(team))
+			return team;
+		
+		team = Team.BLACK;
+		if (isKing_Checkmate(team) && haveNoMove(team))
+			return team;
+
+		return null;
 	}
 
 	public boolean checkPosibleMoveAllTeam(Team team) {
