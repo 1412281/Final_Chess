@@ -39,9 +39,24 @@ public class Point {
 		this.x = x;
 		this.y = y;
 	}
+	public void setPos(Point point) {
+		this.x = point.getX();
+		this.y = point.getY();
+	}
+	public boolean equal(Point point) {
+		return (this.x == point.getX()) && (this.y == point.getY());
+	}
 
 	public String toString() {
 		return "(" + (char)(97 + this.x) + "," + String.valueOf(this.y + 1) + ")";
+	}
+	
+	@SuppressWarnings("unused")
+	public static void main(String[] args) {
+		Point p1 = new Point(1,1);
+		Point p2 = new Point(1,1);
+		if (p1.equal(p1)) System.out.println("equal");
+		else System.out.println("not equal");
 	}
 
 }

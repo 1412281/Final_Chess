@@ -11,7 +11,7 @@ public class App
     {
     	PlayController playController = new PlayController();
     	AI ai_1 = new AI(Level.Normal, Team.BLACK, playController);
-    	AI ai_2 = new AI(Level.Easy, Team.WHITE, playController);
+    	AI ai_2 = new AI(Level.Normal, Team.WHITE, playController);
     	
     	int time = 1;
     	while (playController.checkWin() == null) {
@@ -19,11 +19,11 @@ public class App
     		
     		switch (playController.getTeamTurn()) {
     		case BLACK:
-    			System.out.println("BLACK: ");
+    			System.out.print("BLACK: ");
     			ai_1.takeAMove();
     			break;
     		case WHITE:
-    			System.out.println("WHITE: ");
+    			System.out.print("WHITE: ");
     			ai_2.takeAMove();
     			break;
     		}
