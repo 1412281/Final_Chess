@@ -44,27 +44,31 @@ public class AI {
 
 	private void takeEasy() {
 		Square[][] sq = playController.getBoard();
+		
+		List<Point> listTeam = playController.getListTeam(player.getTeam());
+		List<Point> listMove = new ArrayList<Point>();
+		System.out.print("Team: ");
+		for (int i = 0; i < listTeam.size(); i++)
+			System.out.print(sq[listTeam.get(i).getX()][listTeam.get(i).getY()].getChess().toString() + " ");
+		Random ran = new Random();
+		int iteam;
+		int iMove;
+		
 		while (true) {
-			Random ran = new Random();
-			List<Point> listTeam = playController.getListTeam(player.getTeam());
-
-			System.out.print("Team: ");
-			for (int i = 0; i < listTeam.size(); i++)
-				System.out.print(sq[listTeam.get(i).getX()][listTeam.get(i).getY()].getChess().toString() + " ");
-
-			int iteam = ran.nextInt(listTeam.size());
-			List<Point> listMove = playController.getListPosibleMoveFrom(listTeam.get(iteam));
+			
+			iteam = ran.nextInt(listTeam.size());
+			listMove = playController.getListPosibleMoveFrom(listTeam.get(iteam));
 			if (listMove.isEmpty())
 				continue;
-			int iMove = ran.nextInt(listMove.size());
-
-			System.out.println("\n" + sq[listTeam.get(iteam).getX()][listTeam.get(iteam).getY()].getChess().toString());
-			System.out.println(listTeam.get(iteam).toString() + " => " + listMove.get(iMove).toString());
-			System.out.println("");
-
-			playController.sendMove(listTeam.get(iteam), listMove.get(iMove));
+			iMove = ran.nextInt(listMove.size());
 			break;
 		}
+
+		System.out.println("\n" + sq[listTeam.get(iteam).getX()][listTeam.get(iteam).getY()].getChess().toString());
+		System.out.println(listTeam.get(iteam).toString() + " => " + listMove.get(iMove).toString());
+		System.out.println("");
+
+		playController.sendMove(new Move(listTeam.get(iteam), listMove.get(iMove)));
 	}
 
 	private void takeNormal() {
@@ -96,7 +100,7 @@ public class AI {
 			for (int iMove = 0; iMove < listMove.size(); iMove++) {
 
 				// move và tính thử
-				playController.sendMove(listTeam.get(iTeam), listMove.get(iMove));
+				playController.sendMove(new Move(listTeam.get(iTeam), listMove.get(iMove)));
 
 				int boardValue = getValueBoard(playController.getBoard());
 				if (boardValue >= bestValue) {
@@ -113,7 +117,7 @@ public class AI {
 		System.out.println("");
 		this.lastMoveFrom.setPos(bestPointFrom);
 		this.lastMoveTo.setPos(bestPointTo);
-		playController.sendMove(bestPointFrom, bestPointTo);
+		playController.sendMove(new Move(bestPointFrom, bestPointTo));
 
 	}
 

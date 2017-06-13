@@ -1,6 +1,8 @@
 ﻿package chess.model;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 import chess.model.Chess.Team;
@@ -9,6 +11,9 @@ public class Board {
 
 	private static Square[][] square = new Square[8][8];
 	private Team teamTurn;
+	// Deque<Point> lastMove = new ArrayDeque<Point>();
+	Deque<Move> lastMove = new ArrayDeque<Move>();
+
 	public Square[][] getBoard() {
 		return square.clone();
 	}
@@ -16,11 +21,9 @@ public class Board {
 	public Board() {
 		initChess();
 		teamTurn = Team.WHITE;
+		lastMove.clear();
 	}
 
-	public Board(Square[][] square) {
-		Board.square = square;
-	}
 	private void initChess() {
 		for (int i = 0; i < 8; i++)
 			for (int j = 0; j < 8; j++) {
@@ -40,10 +43,10 @@ public class Board {
 		// khá»Ÿi táº¡o 2 bá»“
 		square[2][0].setChess(new ChessBishop(Team.WHITE));
 		square[5][0].setChess(new ChessBishop(Team.WHITE));
+		// khá»Ÿi táº¡o vua
+		square[3][0].setChess(new ChessKing(Team.WHITE));
 		// khá»Ÿi táº¡o háº­u
 		square[4][0].setChess(new ChessQueen(Team.WHITE));
-		// khá»Ÿi táº¡o vua
-		 square[3][0].setChess(new ChessKing(Team.WHITE));
 
 		// khá»Ÿi táº¡o quĂ¢n Ä�EN
 		// khá»Ÿi táº¡o 8 tá»‘t
@@ -59,14 +62,13 @@ public class Board {
 		// khá»Ÿi táº¡o 2 bá»“
 		square[2][7].setChess(new ChessBishop(Team.BLACK));
 		square[5][7].setChess(new ChessBishop(Team.BLACK));
-		// khá»Ÿi táº¡o háº­u
-		square[4][7].setChess(new ChessQueen(Team.BLACK));
 		// khá»Ÿi táº¡o vua
 		square[3][7].setChess(new ChessKing(Team.BLACK));
+		// khá»Ÿi táº¡o háº­u
+		square[4][7].setChess(new ChessQueen(Team.BLACK));
 
 	}
 
-	
 	// láº¥y danh dĂ¡ch táº¥t cáº£ quĂ¢n cá»� cĂ²n láº¡i cá»§a 1 team
 	public List<Point> getListTeam(Team team) {
 		List<Point> list = new ArrayList<Point>();
@@ -79,7 +81,6 @@ public class Board {
 		return list;
 	}
 
-	
 	public boolean haveNoMove(Team team) {
 		List<Point> listOfTeamMembers = getListTeam(team);
 		for (Point item : listOfTeamMembers) {
@@ -91,7 +92,7 @@ public class Board {
 	}
 
 	public boolean isKing_Checkmate(Team team) {
-		
+
 		List<Point> listOfTeamMembers = getListTeam(team);
 		Point King = null; // lÆ°u láº¡i vá»‹ trĂ­ quĂ¢n King
 		for (Point item : listOfTeamMembers) {
@@ -103,7 +104,6 @@ public class Board {
 		return willKing_checkmate(team, King);
 	}
 
-	
 	public boolean willKing_checkmate(Team team, Point King) {
 		if (King == null)
 			return true;
@@ -117,13 +117,12 @@ public class Board {
 			List<Point> templist = getListPosibleMoveFrom(item);
 
 			if (getChessFrom(item).getClass() == ChessPawn.class) {
-				
+
 				int Yvector = 1;
-									// WHITE
+				// WHITE
 				if (Team.BLACK == enemy)
 					Yvector = -1;
 
-				
 				if (item.getX() + 1 == King.getX() && item.getY() + Yvector == King.getY())
 					return true;
 				if (item.getX() - 1 == King.getX() && item.getY() + Yvector == King.getY())
@@ -137,15 +136,41 @@ public class Board {
 		return false;
 	}
 
-	
-
-	public void move(Point fromPoint, Point toPoint) {
+	public void unMove() {
 		nextTurn();
-		Board.square[toPoint.getX()][toPoint.getY()]
-				.setChess(Board.square[fromPoint.getX()][fromPoint.getY()].getChess());
-		Board.square[fromPoint.getX()][fromPoint.getY()].setChess(null);
+
+		Move move = this.lastMove.pop();
+
+		actionMove(move.reverse());
+
 	}
-	
+
+	public void move(Move move) {
+		nextTurn();
+
+		if (this.lastMove.size() == 4) {
+			this.lastMove.removeLast();
+		}
+
+		Chess dead = Board.square[move.getTo().getX()][move.getTo().getY()].getChess();
+		
+		actionMove(move);
+		
+		move.setChessDead(dead);
+		
+		this.lastMove.push(move);
+
+	}
+
+	private void actionMove(Move move) {
+
+		Board.square[move.getTo().getX()][move.getTo().getY()]
+				.setChess(Board.square[move.getFrom().getX()][move.getFrom().getY()].getChess());
+
+		Board.square[move.getFrom().getX()][move.getFrom().getY()].setChess(move.getChessDead());
+
+	}
+
 	private void nextTurn() {
 		if (teamTurn.equals(Team.WHITE))
 			setTeamTurn(Team.BLACK);
@@ -153,36 +178,33 @@ public class Board {
 			setTeamTurn(Team.WHITE);
 		}
 	}
+
 	public List<Point> getListPosibleMoveFrom(Point point) {
 		List<Point> result = new ArrayList<Point>();
 		Square square = Board.square[point.getX()][point.getY()];
-		
+
 		Chess curChess = square.getChess();
 		if (null == curChess)
 			return result;
 		List<Point> listPoint = curChess.getPosibleMove(point);
 		if (null == listPoint)
 			return result;
-		
+
 		if (curChess.getClass() != ChessKnight.class) {
 			listPoint = getPosiblePoints_except_Prevented(point, listPoint);
 		}
 
-		
 		listPoint = getPosiblePoints_except_Allies(listPoint, square.getChess().getTeam());
-		
+
 		return listPoint;
 	}
 
-	
 	private List<Point> getPosiblePoints_except_Prevented(Point fromPoint, List<Point> list) {
 		Square square = Board.square[fromPoint.getX()][fromPoint.getY()];
 		Chess curChess = square.getChess();
 
-	
 		List<Point> result = new ArrayList<Point>();
 
-		
 		if (curChess.getClass() == ChessKing.class) {
 			for (Point point : list) {
 				if (false == willKing_checkmate(curChess.getTeam(), point)) {
@@ -200,11 +222,11 @@ public class Board {
 						continue;
 					}
 
-					if (2 == Math.abs(point.getY() - fromPoint.getY())) { 
-						
+					if (2 == Math.abs(point.getY() - fromPoint.getY())) {
+
 						int x = point.getX();
 						int y = 5;
-						if (curChess.getTeam() == Team.WHITE) { 
+						if (curChess.getTeam() == Team.WHITE) {
 							y = 2;
 						}
 						if (null == this.getChessFrom(new Point(x, y))) {
@@ -214,24 +236,22 @@ public class Board {
 				} else {
 					Chess Enemy = this.getChessFrom(point);
 					if (null == Enemy) {
-						
-					} else if (Enemy.getTeam() != curChess.getTeam()) { 
+
+					} else if (Enemy.getTeam() != curChess.getTeam()) {
 						result.add(point);
 					}
 				}
 			}
 		}
 
-		
 		else {
 			for (Point point : list) {
 
-				
 				if (1 == Math.abs(point.getX() - fromPoint.getX()) || 1 == Math.abs(point.getY() - fromPoint.getY())) {
 					result.add(point);
 					continue;
 				}
-				
+
 				int Xvector = 0;
 				int Yvector = 0;
 				if (fromPoint.getX() != point.getX()) {
@@ -244,7 +264,6 @@ public class Board {
 				int x = fromPoint.getX() + Xvector;
 				int y = fromPoint.getY() + Yvector;
 
-				
 				while (!(x == point.getX() && y == point.getY())) {
 					Point tempPoint = new Point(x, y);
 					if (null == this.getChessFrom(tempPoint)) {
@@ -254,7 +273,7 @@ public class Board {
 						break;
 					}
 				}
-				if (x == point.getX() && y == point.getY()) { 
+				if (x == point.getX() && y == point.getY()) {
 					result.add(point);
 				}
 			}
@@ -262,13 +281,12 @@ public class Board {
 		return result;
 	}
 
-	
 	private List<Point> getPosiblePoints_except_Allies(List<Point> listPoint, Team team) {
 		List<Point> result = new ArrayList<Point>();
 		for (Point point : listPoint) {
-			Chess chess = this.getChessFrom(point); 
-			if (null != chess) { 
-				if (!chess.getTeam().equals(team)) { 
+			Chess chess = this.getChessFrom(point);
+			if (null != chess) {
+				if (!chess.getTeam().equals(team)) {
 					result.add(point);
 				}
 			} else {
@@ -288,28 +306,12 @@ public class Board {
 
 		if (isKing_Checkmate(team) && haveNoMove(team))
 			return team;
-		
+
 		team = Team.BLACK;
 		if (isKing_Checkmate(team) && haveNoMove(team))
 			return team;
 
 		return null;
-	}
-
-	public static void main(String[] args) {
-		Board newboard = new Board();
-		Point point = new Point(3, 3);
-		System.out.println(point.toString());
-		square[point.getX()][point.getY()].setChess(new ChessKing(Team.BLACK));
-
-		List<Point> list = newboard.getListPosibleMoveFrom(point);
-		System.out.println(list.size());
-		for (Point point1 : list) {
-			System.out.println(point1.toString());
-		}
-
-		System.out.println(newboard.isKing_Checkmate(Team.BLACK));
-		System.out.println(newboard.checkWin());
 	}
 
 	public Team getTeamTurn() {
@@ -318,6 +320,34 @@ public class Board {
 
 	public void setTeamTurn(Team teamTurn) {
 		this.teamTurn = teamTurn;
+	}
+
+	public List<Move> getLastMove() {
+		List<Move> result = new ArrayList<Move>();
+		for (Move move : this.lastMove) {
+			result.add(move);
+		}
+		return result;
+	}
+
+	@SuppressWarnings("static-access")
+	public static void main(String[] args) {
+		Board newboard = new Board();
+		Point p1 = new Point(3, 3);
+		Point p2 = new Point(4, 4);
+		newboard.square[p1.getX()][p1.getY()].setChess(new ChessKing(Team.BLACK));
+		newboard.square[p2.getX()][p2.getY()].setChess(null);
+
+		Move move = new Move(p1, p2);
+		System.out.println("Kill");
+		newboard.move(move);
+//		System.out.println(newboard.square[p1.getX()][p1.getY()].getChess().toString());
+		System.out.println(newboard.square[p2.getX()][p2.getY()].getChess().toString());
+		System.out.println("Unmove");
+		newboard.unMove();
+		System.out.println(newboard.square[p1.getX()][p1.getY()].getChess().toString());
+//		System.out.println(newboard.square[p2.getX()][p2.getY()].getChess().toString());
+
 	}
 
 }

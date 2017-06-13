@@ -1,8 +1,5 @@
 package chess.controller;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 import chess.model.*;
@@ -13,11 +10,10 @@ public class PlayController {
 	private Board board;
 
 	// last move
-	Deque<Point> lastMove = new ArrayDeque<Point>();
 
 	public PlayController() {
 		board = new Board();
-		lastMove.clear();
+
 	}
 
 	public List<Point> getListTeam(Team team) {
@@ -29,16 +25,11 @@ public class PlayController {
 	}
 
 	public void unMove() {
-		sendMove(this.lastMove.pop(),this.lastMove.pop());
+		board.unMove();
 	}
 
-	public void sendMove(Point fromPoint, Point toPoint) {
-
-		board.move(fromPoint, toPoint);
-		if (this.lastMove.size() == 4) { this.lastMove.removeLast(); this.lastMove.removeLast(); }
-		this.lastMove.push(fromPoint);
-		this.lastMove.push(toPoint);
-
+	public void sendMove(Move move) {
+		board.move(move);
 	}
 
 	public Team getTeamTurn() {
@@ -57,13 +48,10 @@ public class PlayController {
 			return teamWin;
 		}
 	}
-	
-	public List<Point> getLastMove(){
-		List<Point> result = new ArrayList<Point>();
-		for(Point point: this.lastMove) {
-			result.add(point);
-		}
-		return result;
+
+	public List<Move> getLastMove() {
+
+		return board.getLastMove();
 	}
 
 }
