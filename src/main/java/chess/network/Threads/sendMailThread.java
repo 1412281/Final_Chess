@@ -12,21 +12,23 @@ import chess.network.Entities.PlayerInfo;
 
 /*Thread được tạo ra để gửi thông điệp đến người nhận là server khác đang tham gia trò chơi
  * */
-public class sendMessageThread extends Thread {
+public class sendMailThread extends Thread {
 	final static int PORT = 9999;
 	private PlayerInfo receiver;
-	private String  message;
+	private String title;
+	private String  content;
+	
 	public PlayerInfo getReceiver() {
 		return receiver;
 	}
 	public void setReceiver(PlayerInfo receiver) {
 		this.receiver = receiver;
 	}
-	public String getMessage() {
-		return message;
+	public String getContent() {
+		return  content;
 	}
-	public void setMessage(String message) {
-		this.message = message;
+	public void setContent(String c) {
+		this. content = c;
 	}
 	
 	@SuppressWarnings("resource")
@@ -41,18 +43,16 @@ public class sendMessageThread extends Thread {
 			is = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
 			
 			// send message request
-			os.write("message");
+			os.write(title);
 			os.newLine();
 			os.flush();
-			
-			sleep(100);
-			//Nhận về tin nhắn phản hồi của server thì gửi message đi
+			//Nhận về tin nhắn phản hồi của server thì gửi content đi
 			String line = is.readLine(); // line lưu ACK
 			switch (line) {
 			case "ACK":
 					{
 						// gửi tin nhắn đi
-						os.write(message);
+						os.write(content);
 						os.newLine();
 						os.flush();
 					}
@@ -61,8 +61,6 @@ public class sendMessageThread extends Thread {
 			default:
 				break;
 			}
-			
-			
 			// xong nhiệm vụ của Thread này
 			is.close();
 			os.close();
@@ -75,10 +73,13 @@ public class sendMessageThread extends Thread {
 		} catch (IOException e) {
 			//System.err.println("cannot get Socket ");
 			return;
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} 
 		
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 }

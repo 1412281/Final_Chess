@@ -1,5 +1,7 @@
 package chess.controller;
 
+import java.io.IOException;
+
 import chess.model.Chess.Team;
 import chess.model.Player;
 
@@ -12,7 +14,7 @@ public class MenuController {
 	Player user, emy;
 	NetworkController networkController;
 	
-	public MenuController(Mode mode, String userName) { 
+	public MenuController(Mode mode, String userName) throws IOException { 
 		
 		this.user = new Player(userName, Team.WHITE);
 		
@@ -21,7 +23,12 @@ public class MenuController {
 			
 			break;
 		case Multi:
-			networkController = new NetworkController();
+			try {
+				networkController = new NetworkController();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 		}
 	}
