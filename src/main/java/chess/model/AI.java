@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import chess.controller.PlayController;
+import chess.model.AI.Level;
 import chess.model.Chess.Team;
 
 public class AI {
@@ -15,8 +16,7 @@ public class AI {
 	private Player player;
 	private Level level;
 	private PlayController playController;
-	private Point lastMoveFrom = new Point();
-	private Point lastMoveTo = new Point();
+	private Move lastMove = null;
 
 	public AI() {
 
@@ -25,7 +25,7 @@ public class AI {
 	public AI(Level level, Team team, PlayController playController) {
 		player = new Player(level.toString() + "AI", team);
 		this.level = level;
-		this.setPlayController(playController);
+		this.playController = playController;
 	}
 
 	public void takeAMove() {
@@ -34,7 +34,7 @@ public class AI {
 			takeNormal();
 			break;
 		case Hard:
-			takeHard();
+			takeHard(3);
 			break;
 		default:
 			takeEasy();
@@ -43,81 +43,60 @@ public class AI {
 	}
 
 	private void takeEasy() {
-		Square[][] sq = playController.getBoard();
+
+		List<Move> listMove = playController.getListMoveAllTeam(player.getTeam());
 		
+		Random ran = new Random();
+
+		Move bestMove = listMove.get(ran.nextInt(listMove.size()));
+		
+		Square[][] sq = playController.getBoardSquare();
 		List<Point> listTeam = playController.getListTeam(player.getTeam());
-		List<Point> listMove = new ArrayList<Point>();
 		System.out.print("Team: ");
 		for (int i = 0; i < listTeam.size(); i++)
 			System.out.print(sq[listTeam.get(i).getX()][listTeam.get(i).getY()].getChess().toString() + " ");
-		Random ran = new Random();
-		int iteam;
-		int iMove;
-		
-		while (true) {
-			
-			iteam = ran.nextInt(listTeam.size());
-			listMove = playController.getListPosibleMoveFrom(listTeam.get(iteam));
-			if (listMove.isEmpty())
-				continue;
-			iMove = ran.nextInt(listMove.size());
-			break;
-		}
-
-		System.out.println("\n" + sq[listTeam.get(iteam).getX()][listTeam.get(iteam).getY()].getChess().toString());
-		System.out.println(listTeam.get(iteam).toString() + " => " + listMove.get(iMove).toString());
+		System.out.print("\n" + sq[bestMove.getFrom().getX()][bestMove.getFrom().getY()].getChess().toString());
+		System.out.println(" " + bestMove.toString());
 		System.out.println("");
 
-		playController.sendMove(new Move(listTeam.get(iteam), listMove.get(iMove)));
+		playController.sendMove(bestMove);
 	}
 
 	private void takeNormal() {
 		int bestValue = -9999;
-		Point bestPointFrom = null, bestPointTo = null;
-		List<Point> listMove = new ArrayList<Point>();
+		Move bestMove = null;
+
+		List<Move> listMove = playController.getListMoveAllTeam(player.getTeam());
+		// delete last point move from. prevent loop
+		if (lastMove != null) {
+			for (int i = 0; i < listMove.size(); i++) {
+				if (listMove.get(i).equal(lastMove.reverse())) {
+					listMove.remove(i);
+				}
+			}
+		}
+		for (Move move : listMove) {
+			// move và tính thử
+			playController.sendMove(move);
+
+			int boardValue = getValueBoard(playController.getBoardSquare());
+			if (boardValue >= bestValue) {
+				bestValue = boardValue;
+				bestMove = move;
+			}
+
+			playController.unMove();
+		}
+		Square[][] sq = playController.getBoardSquare();
 		List<Point> listTeam = playController.getListTeam(player.getTeam());
-		
-		Square[][] sq = playController.getBoard();
 		System.out.print("Team: ");
 		for (int i = 0; i < listTeam.size(); i++)
 			System.out.print(sq[listTeam.get(i).getX()][listTeam.get(i).getY()].getChess().toString() + " ");
-
-		for (int iTeam = 0; iTeam < listTeam.size(); iTeam++) {
-
-			listMove = playController.getListPosibleMoveFrom(listTeam.get(iTeam));
-			
-			if (listMove.isEmpty())
-				continue;
-			
-			// delete last point move from. prevent loop
-			for (int iMove = 0; iMove < listMove.size(); iMove++) {
-				if (listMove.get(iMove).equal(this.lastMoveFrom) && (listTeam.get(iTeam).equal(this.lastMoveTo))) {
-					listMove.remove(iMove);
-				}
-
-			}
-
-			for (int iMove = 0; iMove < listMove.size(); iMove++) {
-
-				// move và tính thử
-				playController.sendMove(new Move(listTeam.get(iTeam), listMove.get(iMove)));
-
-				int boardValue = getValueBoard(playController.getBoard());
-				if (boardValue >= bestValue) {
-					bestValue = boardValue;
-					bestPointFrom = listTeam.get(iTeam);
-					bestPointTo = listMove.get(iMove);
-				}
-
-				playController.unMove();
-			}
-		}
-		System.out.println("\n" + sq[bestPointFrom.getX()][bestPointFrom.getY()].getChess().toString());
-		System.out.println(bestPointFrom.toString() + " => " + bestPointTo.toString());
+		System.out.print("\n" + sq[bestMove.getFrom().getX()][bestMove.getFrom().getY()].getChess().toString());
+		System.out.println(" " + bestMove.toString());
 		System.out.println("");
-		this.lastMoveFrom.setPos(bestPointFrom);
-		this.lastMoveTo.setPos(bestPointTo);
-		playController.sendMove(new Move(bestPointFrom, bestPointTo));
+		this.lastMove = bestMove;
+		playController.sendMove(bestMove);
 
 	}
 
@@ -137,8 +116,76 @@ public class AI {
 		return result;
 	}
 
-	private void takeHard() {
+	private void takeHard(int depth) {
+		PlayController tempPlayController = new PlayController(playController);
+		List<Move> listMove = tempPlayController.getListMoveAllTeam(player.getTeam());
+		int bestValue = -9999;
+		Move bestMove = null;
+		for (Move move : listMove) {
+			// move và tính thử
+			tempPlayController.sendMove(move);
+
+			int boardValue = this.minimax(depth - 1, tempPlayController, -10000, 10000, true);
+			if (boardValue >= bestValue) {
+				bestValue = boardValue;
+				bestMove = move;
+			}
+
+			tempPlayController.unMove();
+		}
+
+		Square[][] sq = playController.getBoardSquare();
+		List<Point> listTeam = playController.getListTeam(player.getTeam());
+		System.out.print("Team: ");
+		for (int i = 0; i < listTeam.size(); i++)
+			System.out.print(sq[listTeam.get(i).getX()][listTeam.get(i).getY()].getChess().toString() + " ");
+		System.out.print("\n" + sq[bestMove.getFrom().getX()][bestMove.getFrom().getY()].getChess().toString());
+		System.out.println(" " + bestMove.toString());
+		System.out.println("");
 		
+		playController.sendMove(bestMove);
+
+	}
+
+	private int minimax(int depth, PlayController playController, int alpha, int beta, boolean isEmy) {
+		
+		if (depth == 0) {
+			return getValueBoard(playController.getBoardSquare());
+		}
+
+		List<Move> listMove = playController.getListMoveAllTeam(player.getTeam());
+
+		if (!isEmy) {
+			int bestValue = -9999;
+
+			for (int i = 0; i < listMove.size(); i++) {
+				
+				playController.sendMove(listMove.get(i));
+				bestValue = Math.max(bestValue, minimax(depth - 1, playController, alpha, beta, !isEmy));
+				playController.unMove();
+				
+				alpha = Math.max(alpha, bestValue);
+				if (beta <= alpha) {
+					return bestValue;
+				}
+			}
+			return bestValue;
+		} else {
+			int bestValue = 9999;
+
+			for (int i = 0; i < listMove.size(); i++) {
+				
+				playController.sendMove(listMove.get(i));
+				bestValue = Math.min(bestValue, minimax(depth - 1, playController, alpha, beta, !isEmy));
+				playController.unMove();
+				
+				beta = Math.min(beta, bestValue);
+				if (beta <= alpha) {
+					return bestValue;
+				}
+			}
+			return bestValue;
+		}
 	}
 
 	public Player getPlayer() {
@@ -153,8 +200,15 @@ public class AI {
 		return playController;
 	}
 
-	public void setPlayController(PlayController playController) {
-		this.playController = playController;
+
+
+	public static void main(String[] args) {
+		PlayController playController = new PlayController();
+		AI ai_1 = new AI(Level.Hard, Team.BLACK, playController);
+
+		ai_1.takeAMove();
+		ai_1.takeAMove();
+		ai_1.takeAMove();
 	}
 
 }

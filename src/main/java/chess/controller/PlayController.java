@@ -3,6 +3,7 @@ package chess.controller;
 import java.util.List;
 
 import chess.model.*;
+import chess.model.AI.Level;
 import chess.model.Chess.Team;
 
 public class PlayController {
@@ -11,6 +12,15 @@ public class PlayController {
 
 	// last move
 
+	
+	public PlayController(PlayController play) {
+		this.board = new Board(play.board);
+	}
+	
+	public void setBoard(Board board) {
+		this.board = board;
+	}
+	
 	public PlayController() {
 		board = new Board();
 
@@ -36,7 +46,7 @@ public class PlayController {
 		return board.getTeamTurn();
 	}
 
-	public Square[][] getBoard() {
+	public Square[][] getBoardSquare() {
 		return board.getBoard();
 	}
 
@@ -52,6 +62,24 @@ public class PlayController {
 	public List<Move> getLastMove() {
 
 		return board.getLastMove();
+	}
+
+	public List<Move> getListMoveAllTeam(Team team) {
+		
+		return board.getListMoveAllTeam(team);
+	}
+	
+	public static void main(String[] args) {
+		PlayController playController = new PlayController();
+		PlayController newController = new PlayController(playController);
+		Point p1 = new Point(1,1);
+		Point p2 = new Point(2,2);
+		Move move = new Move(p1, p2);
+		Square[][] sq = playController.getBoardSquare();
+		newController.sendMove(move);
+		Square[][] sq1 = newController.getBoardSquare();
+		playController.sendMove(move);
+		
 	}
 
 }

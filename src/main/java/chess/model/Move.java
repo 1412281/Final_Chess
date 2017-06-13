@@ -23,10 +23,8 @@ public class Move {
 	}
 
 	public Move reverse() {
-		Point temp = this.from;
-		this.from = this.to;
-		this.to = temp;
-		return this;
+		
+		return new Move(this.getTo(), this.getFrom());
 	}
 
 	public Point getFrom() {
@@ -51,5 +49,13 @@ public class Move {
 
 	public void setChessDead(Chess chessDead) {
 		this.chessDead = chessDead;
+	}
+	
+	public boolean equal(Move move) {
+		return this.getFrom().equal(move.getFrom()) && this.getTo().equal(move.getTo());
+	}
+	
+	public String toString() {
+		return this.from.toString() + " => " + this.to.toString();
 	}
 }

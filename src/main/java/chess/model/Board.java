@@ -9,21 +9,29 @@ import chess.model.Chess.Team;
 
 public class Board {
 
-	private static Square[][] square = new Square[8][8];
-	private Team teamTurn;
-	// Deque<Point> lastMove = new ArrayDeque<Point>();
+	private static final int MAX_LAST_MOVE = 10;
+	private Square[][] square = new Square[8][8];
+	private Team teamTurn = Team.WHITE;;
 	Deque<Move> lastMove = new ArrayDeque<Move>();
 
 	public Square[][] getBoard() {
-		return square.clone();
+		Square[][] result = new Square[8][8];
+		for(int i = 0; i < 8; i++) {
+			for(int j = 0; j < 8; j++) {
+				result[i][j] = new Square(this.square[i][j].getChess());;
+			}
+		}
+		return result;
 	}
 
 	public Board() {
 		initChess();
-		teamTurn = Team.WHITE;
 		lastMove.clear();
 	}
 
+	public Board(Board board) {
+		this.square = board.getBoard();
+	}
 	private void initChess() {
 		for (int i = 0; i < 8; i++)
 			for (int j = 0; j < 8; j++) {
@@ -81,10 +89,10 @@ public class Board {
 		return list;
 	}
 
-	public boolean haveNoMove(Team team) {
+	public boolean haveMove(Team team) {
 		List<Point> listOfTeamMembers = getListTeam(team);
 		for (Point item : listOfTeamMembers) {
-			if (0 == this.getListPosibleMoveFrom(item).size())
+			if (0 != this.getListPosibleMoveFrom(item).size())
 				return true;
 		}
 		return false;
@@ -148,11 +156,11 @@ public class Board {
 	public void move(Move move) {
 		nextTurn();
 
-		if (this.lastMove.size() == 4) {
+		if (this.lastMove.size() == MAX_LAST_MOVE) {
 			this.lastMove.removeLast();
 		}
 
-		Chess dead = Board.square[move.getTo().getX()][move.getTo().getY()].getChess();
+		Chess dead = this.square[move.getTo().getX()][move.getTo().getY()].getChess();
 		
 		actionMove(move);
 		
@@ -164,10 +172,10 @@ public class Board {
 
 	private void actionMove(Move move) {
 
-		Board.square[move.getTo().getX()][move.getTo().getY()]
-				.setChess(Board.square[move.getFrom().getX()][move.getFrom().getY()].getChess());
+		this.square[move.getTo().getX()][move.getTo().getY()]
+				.setChess(this.square[move.getFrom().getX()][move.getFrom().getY()].getChess());
 
-		Board.square[move.getFrom().getX()][move.getFrom().getY()].setChess(move.getChessDead());
+		this.square[move.getFrom().getX()][move.getFrom().getY()].setChess(move.getChessDead());
 
 	}
 
@@ -181,7 +189,7 @@ public class Board {
 
 	public List<Point> getListPosibleMoveFrom(Point point) {
 		List<Point> result = new ArrayList<Point>();
-		Square square = Board.square[point.getX()][point.getY()];
+		Square square = this.square[point.getX()][point.getY()];
 
 		Chess curChess = square.getChess();
 		if (null == curChess)
@@ -200,7 +208,7 @@ public class Board {
 	}
 
 	private List<Point> getPosiblePoints_except_Prevented(Point fromPoint, List<Point> list) {
-		Square square = Board.square[fromPoint.getX()][fromPoint.getY()];
+		Square square = this.square[fromPoint.getX()][fromPoint.getY()];
 		Chess curChess = square.getChess();
 
 		List<Point> result = new ArrayList<Point>();
@@ -297,6 +305,17 @@ public class Board {
 		return result;
 	}
 
+	public List<Move> getListMoveAllTeam(Team team) {
+		List<Point> listTeam = this.getListTeam(team);
+		List<Move> result = new ArrayList<Move>();
+		for(int i = 0; i < listTeam.size(); i++) {
+			List<Point> listPoint = this.getListPosibleMoveFrom(listTeam.get(i));
+			for(int j = 0; j < listPoint.size(); j++) {
+				result.add(new Move(listTeam.get(i), listPoint.get(j)));
+			}
+		}
+		return result;
+	}
 	private Chess getChessFrom(Point point) {
 		return square[point.getX()][point.getY()].getChess();
 	}
@@ -304,11 +323,11 @@ public class Board {
 	public Team checkWin() {
 		Team team = Team.WHITE;
 
-		if (isKing_Checkmate(team) && haveNoMove(team))
+		if (isKing_Checkmate(team) && !haveMove(team))
 			return team;
 
 		team = Team.BLACK;
-		if (isKing_Checkmate(team) && haveNoMove(team))
+		if (isKing_Checkmate(team) && !haveMove(team))
 			return team;
 
 		return null;
@@ -336,7 +355,7 @@ public class Board {
 		Point p1 = new Point(3, 3);
 		Point p2 = new Point(4, 4);
 		newboard.square[p1.getX()][p1.getY()].setChess(new ChessKing(Team.BLACK));
-		newboard.square[p2.getX()][p2.getY()].setChess(null);
+		newboard.square[p2.getX()][p2.getY()].setChess(new ChessKing(Team.BLACK));
 
 		Move move = new Move(p1, p2);
 		System.out.println("Kill");

@@ -9,11 +9,11 @@ public class Square {
 
 	public Square() {
 	}
+	
 	public Square(Chess chess) {
 		this.chess = chess;
 	}
 	
-
 	public void setChess(Chess chess) {
 		this.chess = chess;
 	}
