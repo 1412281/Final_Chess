@@ -50,21 +50,21 @@ public class createServerThread extends Thread{
 						os.flush();
 					}
 					break;
-				case "message":
-					{// gửi ACK sẵn sàng nhận message
+				default:
+					{// gửi ACK sẵn sàng nhận thông điệp có chủ đề chứa trong "line"
+						String line2 ;
 						os.write("ACK");
 						os.newLine();
 						os.flush();
 						// nhận lại message
-						sleep(100);
-						line = is.readLine();
-						System.out.print(line);
+						line2 = is.readLine();
+						System.out.print(line2);
 						// đóng gói thư và đưa vào hàng đợi
-						network.addMail(new Mail(new PlayerInfo(IPsender), "message",line));
+						network.addMail(new Mail(new PlayerInfo(IPsender), line, line2));
 					}
 					break;
-				default:
-					break;
+			
+				
 				}	
 				is.close();
 				os.close();

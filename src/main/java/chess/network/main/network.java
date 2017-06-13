@@ -31,15 +31,18 @@ public class network {
 		// sau đó đóng kết nối ngay
 		ListPlayers.clear();
 		detectOthers();	
-		Thread.sleep(3*1000);
+		Thread.sleep(1*1000);
 		return ListPlayers;
 	}
 	/*Gửi tin nhắn đến một IP*/
-	public String sendMessage(PlayerInfo receiver, String message){// message này là bất kì, ko bao gồm lệnh "connect"
-		sendMessageThread sender = new sendMessageThread();
+	public String sendMail(PlayerInfo receiver,String title ,String c) throws InterruptedException{// thư này là bất kì, ko bao gồm lệnh "connect"
+		sendMailThread sender = new sendMailThread();
 		sender.setReceiver(receiver);
-		sender.setMessage(message);
+		sender.setTitle(title);
+		sender.setContent(c);
 		sender.start();
+		
+		Thread.sleep(300);
 		return "";
 	}
 	/*Lấy toàn bộ mail trong hàng đợi và xóa toàn bộ mail*/
@@ -50,7 +53,7 @@ public class network {
 	}
 	
 	/*Nhận mail đầu tiên trong hàng đợi từ player được chỉ định và xóa mail đó đi*/
-	public Mail receiveFirstMessageFrom(String IPsender){
+	public Mail receiveFirstMailFrom(String IPsender){
 		
 		for(int i=0;i<mails.size();i++){
 			Mail m = mails.get(i);
@@ -102,12 +105,12 @@ public class network {
 		//}
 		// gửi tin nhắn "hello" đi đến các server khác
 		for(PlayerInfo item:currentplayers){
-			newnet.sendMessage(item, "Hello");
+			newnet.sendMail(item, "message","Hello");
 		}
 		
 		
 		for(PlayerInfo item:currentplayers){
-			Mail m = newnet.receiveFirstMessageFrom(item.getIP());
+			Mail m = newnet.receiveFirstMailFrom(item.getIP());
 			if(null == m)  continue;
 			System.out.println(m.getSender().getIP());
 			System.out.println(m.getTitle());
