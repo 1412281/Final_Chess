@@ -8,13 +8,14 @@ import chess.model.Chess.Team;
 public class Board {
 
 	private static Square[][] square = new Square[8][8];
-
+	private Team teamTurn;
 	public Square[][] getBoard() {
 		return square.clone();
 	}
 
 	public Board() {
 		initChess();
+		teamTurn = Team.WHITE;
 	}
 
 	public Board(Square[][] square) {
@@ -139,12 +140,19 @@ public class Board {
 	
 
 	public void move(Point fromPoint, Point toPoint) {
-		
+		nextTurn();
 		Board.square[toPoint.getX()][toPoint.getY()]
 				.setChess(Board.square[fromPoint.getX()][fromPoint.getY()].getChess());
 		Board.square[fromPoint.getX()][fromPoint.getY()].setChess(null);
 	}
 	
+	private void nextTurn() {
+		if (teamTurn.equals(Team.WHITE))
+			setTeamTurn(Team.BLACK);
+		else {
+			setTeamTurn(Team.WHITE);
+		}
+	}
 	public List<Point> getListPosibleMoveFrom(Point point) {
 		List<Point> result = new ArrayList<Point>();
 		Square square = Board.square[point.getX()][point.getY()];
@@ -302,6 +310,14 @@ public class Board {
 
 		System.out.println(newboard.isKing_Checkmate(Team.BLACK));
 		System.out.println(newboard.checkWin());
+	}
+
+	public Team getTeamTurn() {
+		return teamTurn;
+	}
+
+	public void setTeamTurn(Team teamTurn) {
+		this.teamTurn = teamTurn;
 	}
 
 }

@@ -39,7 +39,14 @@ public class Point {
 		this.x = x;
 		this.y = y;
 	}
-
+	
+	public void setPos(Point point) {
+		this.x = point.getX();
+		this.y = point.getY();
+	}
+	public boolean equal(Point point) {
+		return (this.x == point.getX()) && (this.y == point.getY());
+	}
 	public String toString() {
 		return "(" + (char)(97 + this.x) + "," + String.valueOf(this.y + 1) + ")";
 	}
