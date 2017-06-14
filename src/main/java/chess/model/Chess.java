@@ -8,7 +8,26 @@ import java.util.List;
 public abstract class Chess {
 	static final int BOARD_MIN = 0;
 	static final int BOARD_MAX = 7;
-	private int value = 0;
+	
+	private int value;
+	private int[][] valueWHITE = new int[8][8];
+	private int[][] valueBLACK = new int[8][8];
+	
+	public int[][] getValueWHITE() {
+		return valueWHITE;
+	}
+	public int[][] getValueBLACK() {
+		return valueBLACK;
+	}
+	
+	public void setValue(int[][] value) {
+		for(int i = 0; i < 8; i++)
+			for(int j = 0; j < 8; j++)
+			{
+				this.valueWHITE[i][j] = value[i][j];
+				this.valueBLACK[i][j] = value[7 - i][j];
+			}
+	}
 	public enum Team {
 		BLACK, WHITE	
 	}
@@ -79,13 +98,12 @@ public abstract class Chess {
 	}
 
 	public abstract String toString();
-
 	public int getValue() {
 		return value;
 	}
-
 	public void setValue(int value) {
 		this.value = value;
 	}
+	
 }
 

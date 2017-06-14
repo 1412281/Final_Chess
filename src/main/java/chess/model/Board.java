@@ -9,7 +9,7 @@ import chess.model.Chess.Team;
 
 public class Board {
 
-	private static final int MAX_LAST_MOVE = 10;
+	private static final int MAX_LAST_MOVE = 20;
 	private Square[][] square = new Square[8][8];
 	private Team teamTurn = Team.WHITE;;
 	Deque<Move> lastMove = new ArrayDeque<Move>();

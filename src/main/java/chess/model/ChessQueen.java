@@ -8,7 +8,22 @@ public class ChessQueen extends Chess {
 
 	public ChessQueen(Team team) {
 		super(team);
-		super.setValue(900);
+		setValue();
+		super.setValue(90);
+	}
+
+	private void setValue() {
+		int[][] value = new int[][] {
+			 	{ -4, -2, -2, -1, -1, -2, -2, -4},
+			    { -2,  0,  0,  0,  0,  0,  0, -2},
+			    { -2,  0,  1,  1,  1,  1,  0, -2},
+			    { -1,  0,  1,  1,  1,  1,  0, -1},
+			    {  0,  0,  1,  1,  1,  1,  0, -1},
+			    { -2,  1,  1,  1,  1,  1,  0, -2},
+			    { -2,  0,  1,  0,  0,  0,  0, -2},
+			    { -4, -2, -2, -1, -1, -2, -2, -4}
+		};
+		this.setValue(value);
 	}
 
 	/* Bản chất Queen là một Super King */

@@ -8,8 +8,24 @@ public class ChessKing extends Chess {
 
 	public ChessKing(Team team) {
 		super(team);
-		super.setValue(90);
+		setValue();
+		super.setValue(1800);
 	}
+
+	private void setValue() {
+		int[][] value = new int[][] {
+			  	{ -6, -8, -8, -10, -10, -8, -8, -6},
+			    { -6, -8, -8, -10, -10, -8, -8, -6},
+			    { -6, -8, -8, -10, -10, -8, -8, -6},
+			    { -6, -8, -8, -10, -10, -8, -8, -6},
+			    { -4, -6, -6, -8, -8, -6, -6, -4},
+			    { -2, -4, -4, -4, -4, -4, -4, -2},
+			    {  4,  4,  0,  0,  0,  0,  4,  4 },
+			    {  4,  6,  2,  0,  0,  2,  6,  4 }
+		};
+		this.setValue(value);
+	}
+
 
 	@Override
 	public List<Point> getPosibleMove(Point point) {

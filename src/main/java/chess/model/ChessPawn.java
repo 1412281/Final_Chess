@@ -7,12 +7,26 @@ import java.util.List;
 //tốt
 public class ChessPawn extends Chess {
 
-
+	
 	public ChessPawn(Team team) {
 		super(team);
-		super.setValue(10);
+		setValue();
+		super.setValue(20);
 	}
 
+	private void setValue() {
+		int[][] value = new int[][] {
+			{  0,  0,  0,  0,  0,  0,  0,  0},
+			{ 10, 10, 10, 10, 10, 10, 10, 10},
+			{  2,  2,  4,  6,  6,  4,  2,  2},
+			{  1,  1,  2,  5,  5,  2,  1,  1},
+			{  0,  0,  0,  4,  4,  0,  0,  0},
+			{  1, -1, -2,  0,  0, -2, -1,  1},
+			{  1,  2, 2,  -4, -4,  2,  2,  1},
+			{  0,  0,  0,  0,  0,  0,  0,  0},	
+		};
+		this.setValue(value);
+	}
 	@Override
 	public List<Point> getPosibleMove(Point point) {
 		List<Point> list = new ArrayList<Point>();

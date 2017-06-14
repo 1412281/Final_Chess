@@ -8,7 +8,22 @@ public class ChessRook extends Chess {
 
 	public ChessRook(Team team) {
 		super(team);
-		super.setValue(50);
+		setValue();
+		super.setValue(100);
+	}
+
+	private void setValue() {
+		int[][] value = new int[][] {
+			{  0,  0,  0,  0,  0,  0,  0,  0},
+		    {  1,  2,  2,  2,  2,  2,  2,  1},
+		    { -1,  0,  0,  0,  0,  0,  0, -1},
+		    { -1,  0,  0,  0,  0,  0,  0, -1},
+		    { -1,  0,  0,  0,  0,  0,  0, -1},
+		    { -1,  0,  0,  0,  0,  0,  0, -1},
+		    { -1,  0,  0,  0,  0,  0,  0, -1},
+		    {  0,   0, 0,  1,  1,  0,  0,  0}
+		};
+		this.setValue(value);
 	}
 
 	@Override

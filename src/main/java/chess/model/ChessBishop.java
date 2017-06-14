@@ -8,7 +8,22 @@ public class ChessBishop extends Chess {
 
 	public ChessBishop(Team team) {
 		super(team);
-		super.setValue(30);
+		setValue();
+		super.setValue(60);
+	}
+
+	private void setValue() {
+		int[][] value = new int[][] {
+			{ -4, -2, -2, -2, -2, -2, -2, -4},
+		    { -2,  0,  0,  0,  0,  0,  0, -2},
+		    { -2,  0,  1,  2,  2,  1,  0, -2},
+		    { -2,  1,  1,  2,  2,  1,  1, -2},
+		    { -2,  0,  2,  2,  2,  2,  0, -2},
+		    { -2,  2,  2,  2,  2,  2,  2, -2},
+		    { -2,  1,  0,  0,  0,  0,  1, -2},
+		    { -4, -2, -2, -2, -2, -2, -2, -4}
+		};
+		this.setValue(value);
 	}
 
 	@Override

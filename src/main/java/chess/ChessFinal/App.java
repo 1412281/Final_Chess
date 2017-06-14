@@ -10,8 +10,8 @@ public class App
     public static void main( String[] args )
     {
     	PlayController playController = new PlayController();
-    	AI ai_1 = new AI(Level.Normal, Team.BLACK, playController);
-    	AI ai_2 = new AI(Level.Hard, Team.WHITE, playController);
+    	AI ai_1 = new AI(4, Team.BLACK, playController);
+    	AI ai_2 = new AI(1, Team.WHITE, playController);
     	
     	int time = 1;
     	while (playController.checkWin() == null) {

@@ -8,8 +8,21 @@ public class ChessKnight extends Chess {
 
 	public ChessKnight(Team team) {
 		super(team);
-		super.setValue(30);
-		// TODO Auto-generated constructor stub
+		setValue(60);
+	}
+
+	private void setValue() {
+		int[][] value = new int[][] {
+			{-10, -8, -6, -6, -6, -6, -8, -10},
+	        {-8, -4,  0,  0,  0,  0, -4, -8},
+	        {-6,  0,  2,  3,  3,  2,  0, -6},
+	        {-6,  1,  3,  4,  4,  3,  1, -6},
+	        {-6,  0,  3,  4,  4,  3,  0, -6},
+	        {-6,  1,  2,  3,  3,  2,  1, -6},
+	        {-8, -4,  0,  1,  1,  0, -4, -8},
+	        {-10, -8, -6, -6, -6, -6, -8, -10}
+		};
+		this.setValue(value);
 	}
 
 	@Override
