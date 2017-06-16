@@ -8,6 +8,9 @@ import java.util.List;
 public abstract class Chess {
 	static final int BOARD_MIN = 0;
 	static final int BOARD_MAX = 7;
+	public enum Team {
+		BLACK, WHITE	
+	}
 	
 	private int value;
 	private int[][] valueWHITE = new int[8][8];
@@ -28,9 +31,7 @@ public abstract class Chess {
 				this.valueBLACK[i][j] = value[7 - i][j];
 			}
 	}
-	public enum Team {
-		BLACK, WHITE	
-	}
+	
 	
 	protected Team team;
 	
@@ -41,6 +42,7 @@ public abstract class Chess {
 	public Chess(Team team) {
 		this.team = team;
 	}
+	
 	
 	public abstract List<Point> getPosibleMove(Point point);
 	

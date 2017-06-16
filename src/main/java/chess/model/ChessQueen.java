@@ -3,6 +3,7 @@ package chess.model;
 import java.util.ArrayList;
 import java.util.List;
 
+
 //hậu
 public class ChessQueen extends Chess {
 
@@ -53,6 +54,6 @@ public class ChessQueen extends Chess {
 
 	@Override
 	public String toString() {
-		return "Queen";
+		return getTeam() == Team.WHITE ? "Q" : "q";
 	}
 }

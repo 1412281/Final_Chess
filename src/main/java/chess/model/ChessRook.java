@@ -3,6 +3,7 @@ package chess.model;
 import java.util.ArrayList;
 import java.util.List;
 
+
 //xe
 public class ChessRook extends Chess {
 
@@ -48,6 +49,6 @@ public class ChessRook extends Chess {
 
 	@Override
 	public String toString() {
-		return "Rook";
+		return getTeam() == Team.WHITE ? "R" : "r";
 	}
 }

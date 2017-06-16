@@ -51,9 +51,12 @@ public class ChessBishop extends Chess {
 			System.out.println(item.toString());
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Bishop";
+		
+		return getTeam() == Team.WHITE ? "B" : "b";
 	}
 
 }

@@ -3,6 +3,7 @@ package chess.model;
 import java.util.ArrayList;
 import java.util.List;
 
+
 //vua
 public class ChessKing extends Chess {
 
@@ -52,9 +53,11 @@ public class ChessKing extends Chess {
 			System.out.println(item.toString());
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "King";
+		return getTeam() == Team.WHITE ? "K" : "k";
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 //tốt
 public class ChessPawn extends Chess {
 
@@ -70,6 +71,8 @@ public class ChessPawn extends Chess {
 
 	@Override
 	public String toString() {
-		return "Pawn";
+		return getTeam() == Team.WHITE ? "P" : "p";
 	}
+	
+
 }

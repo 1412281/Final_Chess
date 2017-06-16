@@ -3,11 +3,13 @@ package chess.model;
 import java.util.ArrayList;
 import java.util.List;
 
+
 //ngựa
 public class ChessKnight extends Chess {
 
 	public ChessKnight(Team team) {
 		super(team);
+		setValue();
 		setValue(60);
 	}
 
@@ -52,6 +54,8 @@ public class ChessKnight extends Chess {
 
 	@Override
 	public String toString() {
-		return "Knight";
+		return getTeam() == Team.WHITE ? "N" : "n";
 	}
+
+	
 }
