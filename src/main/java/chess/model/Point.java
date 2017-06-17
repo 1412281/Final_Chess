@@ -48,7 +48,7 @@ public class Point {
 		return (this.x == point.getX()) && (this.y == point.getY());
 	}
 	public String toString() {
-		return "(" + (char)(97 + this.x) + "," + String.valueOf(this.y + 1) + ")";
+		return String.valueOf(this.x) + " " + String.valueOf(this.y);
 	}
 
 }

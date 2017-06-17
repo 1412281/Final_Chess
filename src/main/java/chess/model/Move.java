@@ -5,6 +5,10 @@ public class Move {
 	private Point to;
 	private Chess chessDead;
 
+	public Move(String st) {
+		
+	}
+	
 	public Move(Move move) {
 		this.from = move.getFrom();
 		this.to = move.getTo();
@@ -56,6 +60,7 @@ public class Move {
 	}
 	
 	public String toString() {
-		return this.from.toString() + " => " + this.to.toString();
+		return this.from.toString() + " " + this.to.toString();
 	}
+	
 }

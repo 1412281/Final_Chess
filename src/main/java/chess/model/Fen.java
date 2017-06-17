@@ -7,6 +7,7 @@ public class Fen {
 	private String fenString = "";
 
 	public static final String START_POSITION = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+//	public static final String START_POSITION = "2k4P/2P5/1R2P3/8/3KP3/2P2P1B/P2P4/RNBQ2N1 w KQkq - 0 26";
 
 	public Fen() {
 		fenString = START_POSITION;
@@ -16,12 +17,15 @@ public class Fen {
 		init(board);
 	}
 
-	
+	public String getBoardSquareString() {
+		String[] array =  fenString.split(" ");
+		return array[0];
+	}
 
 	private void init(Board board) {
 		Square[][] square = board.getBoardSquare();
 		String tempString = "";
-		for (int i = 0; i < 8; i++) {
+		for (int i = 7; i >= 0; i--) {
 			for (int j = 0; j < 8; j++) {
 				Square sq = square[j][i];
 				if (sq.getChess() != null) {
@@ -74,12 +78,17 @@ public class Fen {
 				square[i][j] = new Square();
 			}
 		int countString = 0;
-		for (int i = 0; i < 8; i++) {
+		for (int i = 7; i >= 0; i--) {
 			int j = 0;
 			while (j < 8) {
 				char ch = squareString.charAt(countString++);
 				if ((ch >= '0') && (ch <= '9')) {
-					j += Character.getNumericValue(ch);
+					int flag = j;
+					int charInt = Character.getNumericValue(ch);
+					for(int t = flag; t < charInt; t++) {
+						square[t][i] = new Square();
+					}
+					j += charInt - 1;
 				}
 				else {
 					square[j][i] = new Square(getChess(ch));
@@ -168,6 +177,7 @@ public class Fen {
 		Fen fen1 = new Fen(board);
 
 		System.out.println(fen1.getFenString());
+		System.out.println(new Fen(board).getFenString());
 	}
 
 }

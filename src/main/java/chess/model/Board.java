@@ -1,8 +1,6 @@
 ﻿package chess.model;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.List;
 
 import chess.model.Chess.Team;
@@ -31,7 +29,7 @@ public class Board {
 	}
 
 	public Board() {
-		initChess();
+		
 	}
 
 	public Board(Board board) {
@@ -44,51 +42,8 @@ public class Board {
 	}
 	
 
-	private void initChess() {
-		for (int i = 0; i < 8; i++)
-			for (int j = 0; j < 8; j++) {
-				square[i][j] = new Square();
-			}
-		// khá»Ÿi táº¡o quĂ¢n TRáº®NG
-		// khá»Ÿi táº¡o 8 tá»‘t
-		for (int i = 0; i < 8; i++) {
-			square[i][1].setChess(new ChessPawn(Team.WHITE));
-		}
-		// khá»Ÿi táº¡o 2 xe
-		square[0][0].setChess(new ChessRook(Team.WHITE));
-		square[7][0].setChess(new ChessRook(Team.WHITE));
-		// khá»Ÿi táº¡o 2 ngá»±a
-		square[1][0].setChess(new ChessKnight(Team.WHITE));
-		square[6][0].setChess(new ChessKnight(Team.WHITE));
-		// khá»Ÿi táº¡o 2 bá»“
-		square[2][0].setChess(new ChessBishop(Team.WHITE));
-		square[5][0].setChess(new ChessBishop(Team.WHITE));
-		// khá»Ÿi táº¡o vua
-		square[3][0].setChess(new ChessKing(Team.WHITE));
-		// khá»Ÿi táº¡o háº­u
-		square[4][0].setChess(new ChessQueen(Team.WHITE));
-
-		// khá»Ÿi táº¡o quĂ¢n Ä�EN
-		// khá»Ÿi táº¡o 8 tá»‘t
-		for (int i = 0; i < 8; i++) {
-			square[i][6].setChess(new ChessPawn(Team.BLACK));
-		}
-		// khá»Ÿi táº¡o 2 xe
-		square[0][7].setChess(new ChessRook(Team.BLACK));
-		square[7][7].setChess(new ChessRook(Team.BLACK));
-		// khá»Ÿi táº¡o 2 ngá»±a
-		square[1][7].setChess(new ChessKnight(Team.BLACK));
-		square[6][7].setChess(new ChessKnight(Team.BLACK));
-		// khá»Ÿi táº¡o 2 bá»“
-		square[2][7].setChess(new ChessBishop(Team.BLACK));
-		square[5][7].setChess(new ChessBishop(Team.BLACK));
-		// khá»Ÿi táº¡o vua
-		square[3][7].setChess(new ChessKing(Team.BLACK));
-		// khá»Ÿi táº¡o háº­u
-		square[4][7].setChess(new ChessQueen(Team.BLACK));
-
-	}
-
+	
+	
 	public List<Point> getListTeam(Team team) {
 		List<Point> list = new ArrayList<Point>();
 		for (int i = 0; i < 8; i++)
@@ -96,7 +51,7 @@ public class Board {
 				Square sq = square[i][j]; 
 				if (sq.getChess() != null)
 				{
-					if (sq.getChess().getTeam().equals(team))
+					if (sq.getChess().getTeam() == team)
 						list.add(new Point(i, j));
 				}
 			}
@@ -161,9 +116,28 @@ public class Board {
 
 	public void move(Move move) {
 		nextTurn();
-
-		Chess chess = this.square[move.getFrom().getX()][move.getFrom().getY()].getChess();
-		this.square[move.getTo().getX()][move.getTo().getY()] = new Square(chess);
+		
+		Chess chessFrom = this.getChessFrom(move.getFrom());
+		Chess chessTo = this.getChessFrom(move.getTo());
+		
+		
+		if ((chessFrom.getClass() == ChessPawn.class) && (move.getTo().getY() == move.getFrom().getY() - 2)) {
+			this.enPassant = move.getFrom().toString();
+		}
+		else {
+			this.enPassant = "-";
+		}
+		if (chessFrom.getClass() == ChessPawn.class || chessTo != null) {
+			this.countFifty = 0;
+		}
+		else {
+			this.countFifty++;
+		}
+		
+		if (this.teamTurn == Team.BLACK) {
+			this.fullMove++;
+		}
+		this.square[move.getTo().getX()][move.getTo().getY()] = new Square(chessFrom);
 
 		this.square[move.getFrom().getX()][move.getFrom().getY()].setChess(null);
 
@@ -323,6 +297,8 @@ public class Board {
 
 		return null;
 	}
+	
+	
 
 	public Team getTeamTurn() {
 		return teamTurn;
@@ -416,10 +392,11 @@ public class Board {
 
 
 	public static void main(String[] args) {
-		Board newboard = new Board();
-		Point p1 = new Point(3, 3);
-		Point p2 = new Point(1, 2);
-		newboard.move(new Move(p1, p2));
+		Board board = (new Fen()).getBoard();
+		List<Move> list = board.getListMoveAllTeam(Team.WHITE);
+		for(Move move: list) {
+			System.out.println(move.toString());
+		}
 
 	}
 

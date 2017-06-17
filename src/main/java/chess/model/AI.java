@@ -53,26 +53,28 @@ public class AI {
 
 		List<Move> listMove = tempPlayController.getListMoveAllTeam(this.getTeam());
 
-		// delete last point move from. prevent loop
-		if (lastMove != null) {
-			for (int i = 0; i < listMove.size(); i++) {
-				if (listMove.get(i).equal(lastMove.reverse())) {
-					listMove.remove(i);
-				}
-			}
-		}
+//		// delete last point move from. prevent loop
+//		if (lastMove != null) {
+//			for (int i = 0; i < listMove.size(); i++) {
+//				if (listMove.get(i).equal(lastMove.reverse())) {
+//					listMove.remove(i);
+//				}
+//			}
+//		}
 
 		int bestValue = -9999 * 2;
 		Move bestMove = null;
 		for (Move move : listMove) {
 			// move và tính thử
 			tempPlayController.sendMove(move);
+			
 			Team emy = this.getTeam().equals(Team.WHITE) ? Team.BLACK : Team.WHITE;
 			int boardValue = this.minimax(depth - 1, tempPlayController, -10000 * 2, 10000 * 2, true, emy);
 			if (boardValue >= bestValue) {
 				bestValue = boardValue;
 				bestMove = move;
 			}
+			
 			tempPlayController.unMove();
 		}
 
@@ -104,7 +106,9 @@ public class AI {
 			for (int i = 0; i < listMove.size(); i++) {
 
 				playController.sendMove(listMove.get(i));
+				
 				bestValue = Math.max(bestValue, minimax(depth - 1, playController, alpha, beta, !isEmy, emy));
+				
 				playController.unMove();
 
 				alpha = Math.max(alpha, bestValue);
@@ -119,7 +123,9 @@ public class AI {
 			for (int i = 0; i < listMove.size(); i++) {
 
 				playController.sendMove(listMove.get(i));
+				
 				bestValue = Math.min(bestValue, minimax(depth - 1, playController, alpha, beta, !isEmy, emy));
+				
 				playController.unMove();
 
 				beta = Math.min(beta, bestValue);
@@ -148,7 +154,7 @@ public class AI {
 
 		PlayController newController = new PlayController(playController);
 
-		AI ai_1 = new AI(2, Team.BLACK, playController);
+		AI ai_1 = new AI(3, Team.BLACK, playController);
 		ai_1.takeAMove();
 	}
 

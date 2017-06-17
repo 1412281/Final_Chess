@@ -2,17 +2,15 @@ package chess.controller;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
 
-import chess.model.Player;
 import chess.network.Entities.Mail;
 import chess.network.Entities.PlayerInfo;
 import chess.network.main.network;
 
 public class NetworkController {
 	private network net;
-	NetworkController() throws IOException, InterruptedException {
+	public NetworkController() throws IOException, InterruptedException {
 		net = new network();
 	}
 	
@@ -70,6 +68,10 @@ public class NetworkController {
 		netcontroller.sendDeny(listplayers.get(0));
 		
 		
+	}
+
+	public void sendMail(Mail mail) throws InterruptedException {
+		net.sendMail(mail.getSender(), mail.getTitle(), mail.getContent());
 	}
 	
 }
