@@ -41,7 +41,9 @@ public class createServerThread extends Thread{
 				os = new BufferedWriter(new OutputStreamWriter(socketServer.getOutputStream()));
 				String IPsender = socketServer.getInetAddress().getHostAddress();
 				//sau khi kết nối thì nhận ngay thông tin yêu cầu của client
-				String line = is.readLine();
+				String line;
+				line = is.readLine();
+				//System.out.println(line);
 				switch (line) {
 				case "connect":
 					{ // gửi username của server đến cho client biết là server tồn tại
@@ -58,16 +60,16 @@ public class createServerThread extends Thread{
 						os.flush();
 						// nhận lại message
 						line2 = is.readLine();
-						System.out.print(line2);
+						//System.out.print(line2);
 						// đóng gói thư và đưa vào hàng đợi
 						network.addMail(new Mail(new PlayerInfo(IPsender), line, line2));
 					}
 					break;
-			
-				
-				}	
+				}
+				line = null;
 				is.close();
 				os.close();
+				socketServer.close();
 			}
 			while (true);
 			//System.out.print("Server stopped!");

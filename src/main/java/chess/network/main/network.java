@@ -42,7 +42,7 @@ public class network {
 		sender.setContent(c);
 		sender.start();
 		
-		Thread.sleep(300);
+		//Thread.sleep(300);
 		return "";
 	}
 	/*Lấy toàn bộ mail trong hàng đợi và xóa toàn bộ mail*/
@@ -53,16 +53,16 @@ public class network {
 	}
 	
 	/*Nhận mail đầu tiên trong hàng đợi từ player được chỉ định và xóa mail đó đi*/
-	public Mail receiveFirstMailFrom(String IPsender){
+	public Mail receiveFirstMailFrom(String IPsender) throws InterruptedException{
 		
-		for(int i=0;i<mails.size();i++){
+		for(int i=0; i<mails.size(); i++){
 			Mail m = mails.get(i);
 			if(m.getSender().getIP().equals(IPsender)){ // kiểm tra IP của người gửi
 				mails.remove(i);
 				return m;
 			}
 		}
-		
+		Thread.sleep(100);
 		return null;
 	}
 	
@@ -83,7 +83,7 @@ public class network {
 
 	private void createServer() {
 		createServerThread newserver = new createServerThread();
-		newserver.setUsername("May A");
+		newserver.setUsername("May B");
 		newserver.start();
 	}
 	
@@ -91,7 +91,7 @@ public class network {
 	
 	public static void main(String[] args) throws IOException, InterruptedException{
 		
-		network newnet = new network();
+		/*network newnet = new network();
 		
 		//while(true){// Tìm kiếm danh sách các người chơi đang tồn tại
 		ArrayList<PlayerInfo> currentplayers = getListPlayers();
@@ -116,6 +116,7 @@ public class network {
 			System.out.println(m.getTitle());
 			System.out.println(m.getContent());
 		}
+		*/
 		
 	}
 
@@ -159,6 +160,7 @@ public class network {
 	}
 	public static void addMail(Mail newmail){
 		synchronized (mails) {
+			//System.out.println("Tang 1");
 			mails.add(newmail);
 		}
 	}

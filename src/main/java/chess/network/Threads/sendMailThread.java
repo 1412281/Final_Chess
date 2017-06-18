@@ -42,12 +42,14 @@ public class sendMailThread extends Thread {
 			os = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
 			is = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
 			
+			//System.out.println(title);
 			// send message request
 			os.write(title);
 			os.newLine();
 			os.flush();
 			//Nhận về tin nhắn phản hồi của server thì gửi content đi
 			String line = is.readLine(); // line lưu ACK
+			//System.out.println(line);
 			switch (line) {
 			case "ACK":
 					{

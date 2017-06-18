@@ -6,7 +6,9 @@ public class Move {
 	private Chess chessDead;
 
 	public Move(String st) {
-		
+		String[] arr= st.split(" ");
+		from = new Point(Integer.valueOf(arr[0]),Integer.valueOf(arr[1]));
+		to = new Point(Integer.valueOf(arr[2]),Integer.valueOf(arr[3]));
 	}
 	
 	public Move(Move move) {

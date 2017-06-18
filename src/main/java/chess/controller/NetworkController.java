@@ -16,7 +16,7 @@ public class NetworkController {
 	
 	// ham lay danh sach nguoi choi trong mang LAN
 	public List<PlayerInfo> getListPlayers() throws UnknownHostException, InterruptedException {
-		List<PlayerInfo> list = net.getListPlayers();
+		List<PlayerInfo> list = network.getListPlayers();
 		return list;
 	}
 	
@@ -35,7 +35,7 @@ public class NetworkController {
 	
 	
 	// ham doi va receive tin nhan dau tien tu nguoi choi chi dinh
-	public Mail waitToReceiveMailFrom(PlayerInfo player){
+	public Mail waitToReceiveMailFrom(PlayerInfo player) throws InterruptedException{
 		Mail m = null;
 		do{
 			m = net.receiveFirstMailFrom(player.getIP());
@@ -45,7 +45,7 @@ public class NetworkController {
 	
 	
 	public static void main(String[] args) throws IOException, InterruptedException{
-		NetworkController netcontroller = new NetworkController();
+		/*NetworkController netcontroller = new NetworkController();
 		int numofplay = 0;
 		List<PlayerInfo> listplayers = null;
 		do{
@@ -65,7 +65,7 @@ public class NetworkController {
 		
 		netcontroller.sendAccept(listplayers.get(0));
 		
-		netcontroller.sendDeny(listplayers.get(0));
+		netcontroller.sendDeny(listplayers.get(0));*/
 		
 		
 	}
