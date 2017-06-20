@@ -23,6 +23,7 @@ public class detectAnotherServerThread extends Thread {
 		//System.out.println(username+" đang tìm "+IP);	
 		try{
 				// send connect	
+				
 				socketClient = new Socket(IP, PORT);
 				os = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
 				is = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
@@ -36,6 +37,7 @@ public class detectAnotherServerThread extends Thread {
 				//Nhận về tin nhắn username của server thì lưu lại thông tin server này
 				String line = is.readLine(); // line lưu username
 				// cập nhật IP này vào danh sách, cùng với username
+				System.out.println(IP);
 				network.addIP(IP);
 				network.addNewPlayer(new PlayerInfo(IP,line));
 				// xong nhiệm vụ của Thread này

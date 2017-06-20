@@ -52,7 +52,7 @@ public class createServerThread extends Thread{
 						os.flush();
 					}
 					break;
-				default:
+				case "MOVE":
 					{// gửi ACK sẵn sàng nhận thông điệp có chủ đề chứa trong "line"
 						String line2 ;
 						os.write("ACK");
@@ -69,7 +69,7 @@ public class createServerThread extends Thread{
 				line = null;
 				is.close();
 				os.close();
-				socketServer.close();
+				//socketServer.close();
 			}
 			while (true);
 			//System.out.print("Server stopped!");

@@ -21,7 +21,7 @@ public class App {
 	 */
 	
 	/*Main này cho máy 1*/
-	public static void main(String[] args) throws IOException, InterruptedException {
+	/*public static void main(String[] args) throws IOException, InterruptedException {
 		PlayerInfo partner = null;
 		
 		NetworkController netController = new NetworkController();
@@ -38,8 +38,8 @@ public class App {
 		// gui loi moi den nguoi nay
 		//netController.sendAccept(listplayers.get(0));
 		partner = listplayers.get(0);
-		netController.sendOffer(listplayers.get(0));
-		Mail mail = netController.waitToReceiveMailFrom(partner);
+		//netController.sendOffer(listplayers.get(0));
+		//Mail mail = netController.waitToReceiveMailFrom(partner);
 		
 		PlayController playController = new PlayController();
 //		AI ai_1 = new AI(1, Team.BLACK, playController);
@@ -90,13 +90,13 @@ public class App {
 			String teamString = playController.checkWin() == Team.WHITE ? "WHITE" : "BLACK";
 			System.out.println("WIN => " + teamString);
 		}
-	}
+	}*/
 	
 	
 	
 	/*Main này cho máy 2, máy 2 đi trước*/
 	
-	/*public static void main(String[] args) throws IOException, InterruptedException {
+	public static void main(String[] args) throws IOException, InterruptedException {
 		PlayerInfo partner = null;
 		
 		NetworkController netController = new NetworkController();
@@ -111,15 +111,15 @@ public class App {
 			System.out.println(item.getName());
 		}
 		// gui loi moi den nguoi nay
-		netController.sendOffer(listplayers.get(0));
+		//netController.sendOffer(listplayers.get(0));
 //		
 		
 //		
 //		netController.sendDeny(listplayers.get(0));
 		
 		partner = listplayers.get(0);
-		Mail mail = netController.waitToReceiveMailFrom(partner);
-		netController.sendAccept(listplayers.get(0));
+		//Mail mail = netController.waitToReceiveMailFrom(partner);
+		//netController.sendAccept(listplayers.get(0));
 		
 		PlayController playController = new PlayController();
 //		AI ai_1 = new AI(1, Team.BLACK, playController);
@@ -133,17 +133,15 @@ public class App {
 			DataInputStream din = new DataInputStream(System.in);
 			
 			
-			switch (x) {
+			switch (playController.getTeamTurn()) {
 			case WHITE:
 				System.out.println("WHITE: ");
 				String st = din.readLine();
 				Mail smail = new Mail(partner, "MOVE", st);
 				netController.sendMail(smail);
 				Move move2 = new Move(smail.getContent());
-				//playController.sendMove(move);
+				playController.sendMove(move2);
 				System.out.println(move2.toString());
-				
-				x = Team.BLACK;
 				break;
 			case BLACK:
 				System.out.println("BLACK: ");
@@ -152,9 +150,9 @@ public class App {
 					System.out.println(rmail.getContent());
 					if (rmail.getTitle().equals("MOVE")) {
 						Move move = new Move(rmail.getContent());
-						//playController.sendMove(move);
+						playController.sendMove(move);
 						System.out.println(move.toString());
-						x = Team.WHITE;
+				
 						break;
 					}
 					
@@ -170,5 +168,5 @@ public class App {
 			System.out.println("WIN => " + teamString);
 		}
 	}
-	 */
+	 
 }

@@ -77,12 +77,12 @@ public class network {
 	    	if(t<0) t+=256;
 	    	semiIP+=String.valueOf(t)+".";
 	    }
-	    System.out.println(semiIP);
+	    //System.out.println(semiIP);
 	    
 		for (int i = 1; i <= 254; i++)
 	    {
 			if(ip[3] == i || ip[3]+256 == i) continue; // bỏ qua giá trị IP trùng với máy
-			String fullIP=semiIP + i;
+			String fullIP=semiIP + String.valueOf(i);
 			detectAnotherServerThread client = new detectAnotherServerThread();
 			client.setIP(fullIP);
 			client.start();	
@@ -91,7 +91,7 @@ public class network {
 
 	private void createServer() {
 		createServerThread newserver = new createServerThread();
-		newserver.setUsername("May B");
+		newserver.setUsername("May HP");
 		newserver.start();
 	}
 	
@@ -99,14 +99,14 @@ public class network {
 	
 	public static void main(String[] args) throws IOException, InterruptedException{
 		
-		network newnet = new network();
+		/*network newnet = new network();
 		
 		//while(true){// Tìm kiếm danh sách các người chơi đang tồn tại
 		ArrayList<PlayerInfo> currentplayers = getListPlayers();
 		
 		System.out.println(currentplayers.size());
 		
-		/*for(PlayerInfo item:currentplayers){
+		for(PlayerInfo item:currentplayers){
 			System.out.println(item.getIP()+":" +item.getName());
 		}
 		Thread.sleep(10*1000);

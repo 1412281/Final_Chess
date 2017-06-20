@@ -38,6 +38,7 @@ public class sendMailThread extends Thread {
 		BufferedWriter os = null;
 		try{
 			// send connect	
+			//System.out.println(receiver.getIP());
 			socketClient = new Socket(receiver.getIP(), PORT);
 			os = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
 			is = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
