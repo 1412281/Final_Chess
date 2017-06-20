@@ -36,7 +36,11 @@ public class PlayController {
 	}
 
 	public List<Point> getListPosibleMoveFrom(Point point) {
-		return board.getListPosibleMoveFrom(point);
+		List<Point> result = new ArrayList<Point>();
+		result.addAll(board.getListPosibleMoveFrom(point));
+		
+		
+		return result;
 	}
 
 	public void unMove() {
