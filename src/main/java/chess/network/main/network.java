@@ -68,9 +68,17 @@ public class network {
 	
 	
 	private static void detectOthers() throws InterruptedException, UnknownHostException {
-		String semiIP="192.168.1.";
+		String semiIP="";
 		InetAddress localhost = InetAddress.getLocalHost();
 	    byte[] ip = localhost.getAddress();
+	    
+	    for(int i=0;i<3;i++){
+	    	int t = (int) ip[i];
+	    	if(t<0) t+=256;
+	    	semiIP+=String.valueOf(t)+".";
+	    }
+	    System.out.println(semiIP);
+	    
 		for (int i = 1; i <= 254; i++)
 	    {
 			if(ip[3] == i || ip[3]+256 == i) continue; // bỏ qua giá trị IP trùng với máy
@@ -91,14 +99,14 @@ public class network {
 	
 	public static void main(String[] args) throws IOException, InterruptedException{
 		
-		/*network newnet = new network();
+		network newnet = new network();
 		
 		//while(true){// Tìm kiếm danh sách các người chơi đang tồn tại
 		ArrayList<PlayerInfo> currentplayers = getListPlayers();
 		
 		System.out.println(currentplayers.size());
 		
-		for(PlayerInfo item:currentplayers){
+		/*for(PlayerInfo item:currentplayers){
 			System.out.println(item.getIP()+":" +item.getName());
 		}
 		Thread.sleep(10*1000);
