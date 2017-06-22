@@ -161,15 +161,19 @@ public class Board {
 			
 			if (move.getTo().equal(new Point(2, 0))) {
 				this.move(new Move(new Point(0,0), new Point(3,0)));
+				nextTurn();
 			}
 			if (move.getTo().equal(new Point(6, 0))) {
 				this.move(new Move(new Point(7,0), new Point(5,0)));
+				nextTurn();
 			}
 			if (move.getTo().equal(new Point(2, 7))) {
-				this.move(new Move(new Point(0,7), new Point(3,7)));				
+				this.move(new Move(new Point(0,7), new Point(3,7)));	
+				nextTurn();
 			}
 			if (move.getTo().equal(new Point(6, 7))) {
-				this.move(new Move(new Point(7,7), new Point(5,7)));				
+				this.move(new Move(new Point(7,7), new Point(5,7)));	
+				nextTurn();
 			}
 				
 		}
@@ -280,21 +284,21 @@ public class Board {
 		if (curChess.getClass() == ChessPawn.class) {
 
 			for (Point point : list) {
-				if (point.getX() == fromPoint.getX()) {
-					if (null == this.getChessFrom(point)) {
+				if (point.getX() == fromPoint.getX() ) {
+					if (null == this.getChessFrom(point) && (2 != Math.abs(point.getY() - fromPoint.getY()))) {
 						result.add(point);
-						continue;
 					}
 
 					if (2 == Math.abs(point.getY() - fromPoint.getY())) {
-
 						int x = point.getX();
 						int y = 5;
+						
 						if (curChess.getTeam() == Team.WHITE) {
 							y = 2;
+							
 						}
 						if (null == this.getChessFrom(new Point(x, y))) {
-							result.add(point);
+								result.add(point);
 						}
 					}
 				} else {

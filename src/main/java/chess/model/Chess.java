@@ -80,7 +80,7 @@ public abstract class Chess {
 			if((BOARD_MIN<=x && x<= BOARD_MAX) && ((BOARD_MIN<=y && y<= BOARD_MAX)))
 			{
 				list.add(new Point(x, y));
-				// tiến thêm 1 bước thoe hướng này
+				// tiến thêm 1 bước theo hướng này
 				temp.setX(x);
 				temp.setY(y);
 			}
