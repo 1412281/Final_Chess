@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.plaf.SliderUI;
+
 import chess.controller.PlayController;
 import chess.model.AI.Level;
 import chess.model.Chess.Team;
@@ -28,7 +30,8 @@ public class AI {
 		this.playController = playController;
 	}
 
-	public void takeAMove() {
+	public void takeAMove() throws InterruptedException {
+		Thread.sleep(100);
 		takeHard(level);
 	}
 
@@ -149,7 +152,7 @@ public class AI {
 		this.team = team;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		PlayController playController = new PlayController();
 
 		PlayController newController = new PlayController(playController);

@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import chess.duphong.start.startgame;
+import chess.model.Chess.Team;
 
 import java.awt.Panel;
 import java.awt.event.KeyEvent;
@@ -20,7 +21,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.Canvas;
 import java.awt.Color;
 
-public class singleplay extends JFrame {
+public class playgame extends JFrame {
 
 	/**
 	 * Launch the application.
@@ -29,7 +30,7 @@ public class singleplay extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					singleplay frame = new singleplay(1);
+					playgame frame = new playgame(1);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,11 +42,100 @@ public class singleplay extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public singleplay(int level) {
+	
+	// hàm constructor cho người chơi qua LAN
+	public playgame(int level) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 631, 501);
 		setLocationRelativeTo(null);
 		JPanel panel = new Surface(level);
+		
+		getContentPane().add(panel, BorderLayout.CENTER);
+		
+		this.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent ke) {
+				if(ke.getKeyCode() == KeyEvent.VK_ESCAPE){ // khi nhấn phím ESC  
+					dispose();
+					startgame start = new startgame();
+					start.setVisible(true);
+			    }
+			}
+		});
+		
+		panel.addMouseListener(new MouseListener() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+				
+				int x = e.getX()/(panel.getWidth()/8);// lấy tọa độ x
+				int y =7-e.getY() /(panel.getHeight()/8); // lấy tọa độ Y từ dưới lên 
+				
+				// gọi hàm Highlight vị trí đang chọn
+				try {
+					((Surface) panel).highlightSelected(x,y);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+			}
+			
+			
+			
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+	    
+		 this.setResizable(false);
+		 this.setVisible(true);
+	}
+
+	
+	
+	// hàm constructor cho người chơi đơn
+	public playgame(Team playerteam,String playername,String enemyname) {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 631, 501);
+		setLocationRelativeTo(null);
+		JPanel panel = new Surface(playerteam,playername,enemyname);
 		
 		getContentPane().add(panel, BorderLayout.CENTER);
 		

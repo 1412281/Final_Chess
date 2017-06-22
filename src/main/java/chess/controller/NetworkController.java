@@ -10,8 +10,13 @@ import chess.network.main.network;
 
 public class NetworkController {
 	private network net;
-	public NetworkController() throws IOException, InterruptedException {
-		net = new network();
+	public NetworkController() throws IOException{
+		try {
+			net = new network();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	// ham lay danh sach nguoi choi trong mang LAN
@@ -32,8 +37,20 @@ public class NetworkController {
 		net.sendMail(player, "deny","");
 	}
 	
-	
-	
+	// kiem tra trong hom thu co Offer nao khong
+	public Mail getMail_byTitle_IfExist(String title){
+		if(title == null ) return null;
+		List<Mail> listmail= net.getAllMails();
+		Mail result = null;
+		for(Mail item:listmail){
+			if(item.getTitle().equals(title)){
+				result = item;
+				listmail.remove(item);
+				break;
+			}
+		}
+		return result;
+	}
 	// ham doi va receive tin nhan dau tien tu nguoi choi chi dinh
 	public Mail waitToReceiveMailFrom(PlayerInfo player) throws InterruptedException{
 		Mail m = null;

@@ -49,8 +49,8 @@ public class sendMailThread extends Thread {
 			os.newLine();
 			os.flush();
 			//Nhận về tin nhắn phản hồi của server thì gửi content đi
+			
 			String line = is.readLine(); // line lưu ACK
-			//System.out.println(line);
 			switch (line) {
 			case "ACK":
 					{

@@ -7,7 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import chess.duphong.singleplay.singleplay;
+import chess.duphong.singleplay.selectlevel;
+import chess.duphong.singleplay.playgame;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -18,6 +19,7 @@ import javax.swing.SpringLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.io.IOException;
 
 public class startgame extends JFrame {
 
@@ -44,7 +46,10 @@ public class startgame extends JFrame {
 	 * Create the frame.
 	 */
 	public startgame() {
+		setTitle("Start Game\r\n");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setLocationRelativeTo(null);
+		
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -58,9 +63,10 @@ public class startgame extends JFrame {
 		btnSinglePlay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Tải phần chơi với máy
-				singleplay s = new singleplay();
-				s.setVisible(true);
+				selectlevel s = new selectlevel();
 				dispose();
+				s.setVisible(true);
+				
 			}
 		});
 		

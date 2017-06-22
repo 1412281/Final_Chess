@@ -52,7 +52,7 @@ public class createServerThread extends Thread{
 						os.flush();
 					}
 					break;
-				case "MOVE":
+				case "MOVE": case "offer": case "accept":
 					{// gửi ACK sẵn sàng nhận thông điệp có chủ đề chứa trong "line"
 						String line2 ;
 						os.write("ACK");

@@ -49,7 +49,6 @@ public class network {
 	public static ArrayList<Mail> getAllMails() {
 		// chưa xóa mail
 		return mails;
-		
 	}
 	
 	/*Nhận mail đầu tiên trong hàng đợi từ player được chỉ định và xóa mail đó đi*/

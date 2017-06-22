@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
@@ -15,8 +17,10 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import chess.controller.PlayController;
+import chess.duphong.multiplay.listPlayer;
 import chess.model.AI;
 import chess.model.Chess;
 import chess.model.ChessBishop;
@@ -28,6 +32,8 @@ import chess.model.ChessRook;
 import chess.model.Move;
 import chess.model.Point;
 import chess.model.Square;
+import chess.network.Entities.Mail;
+import chess.network.Entities.PlayerInfo;
 import chess.model.Chess.Team;
 
 
@@ -35,8 +41,11 @@ import chess.model.Chess.Team;
  * 
  * */
 public class Surface extends JPanel {
+	 
+	
+	
 	//Các Image xuất hiện trong bàn cờ
-	private BufferedImage banco ;
+	private BufferedImage banco;
 	private BufferedImage Squarechon;
 	private BufferedImage Squaregoiy;
 	// 2 Hash Map dùng để lấy hình ảnh quân cờ , dựa theo kí hiệu của FEN
@@ -49,8 +58,29 @@ public class Surface extends JPanel {
 	int Xchon,Ychon,Xdi,Ydi ;
 	boolean dangchon = false;
 	boolean dangdi = false;
-	Team yourTeam = Team.WHITE;
-	chess.model.AI computer = new AI(4, Team.BLACK, player);
+	boolean choionline = false;
+	private String playerName = "";
+	private String enemyName = "";
+	private Team yourTeam = Team.WHITE; // mặc định là team white, nếu khởi tạo đi sau thì team BLACK
+	private chess.model.AI computer = null;
+	
+	// hàm khởi tạo cho chế độ chơi qua LAN
+	public Surface(Team yourteam, String playername,String enemyname){
+		super();
+		choionline = true;
+		
+		yourTeam = yourteam;
+		playerName= playername;
+		enemyName = enemyname;
+	}
+	
+	// hàm khởi tạo máy khi chơi với máy
+	public Surface(int level) {
+		super();
+		
+		computer = new AI(level, Team.BLACK, player);
+	}
+	
 	
 	private void doDrawing(Graphics g) {
 		Square[][] currentMatrix = player.getBoardSquare();
@@ -138,6 +168,8 @@ public class Surface extends JPanel {
 				}
 			}
 	    }
+		g2d.setColor(Color.RED);
+		g2d.drawString("Press ESC to exit",this.getWidth()/3, this.getHeight()/2);
     }
  
 	private void drawHintAt(Graphics2D g2d, BufferedImage squaregoiy, int x, int y) {
@@ -217,16 +249,29 @@ public class Surface extends JPanel {
 
 	@Override
     public void paintComponent(Graphics g) {
- 
+		Timer timer = new Timer(1000, new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(choionline){// nếu đang chơi online
+					// kiểm tra xem có MOVE từ đối phương hay không
+					Move newmove = listPlayer.getEnemymove();
+					if(newmove != null){
+						player.sendMove(newmove);
+					}
+				}
+				
+				
+				
+				repaint();
+			}
+		});		
+		timer.start();
         super.paintComponent(g);
         doDrawing(g);
     }
     
-    public void highlightSelected(int x,int y){ // hiển thị ô đang chọn
-    	
-    	
-    	
-    	
+    public void highlightSelected(int x,int y) throws InterruptedException{ // hiển thị ô đang chọn
     	boolean contains = false;
     	for(Point item:listposible){
     		if(x == item.getX() && y == item.getY()) {
@@ -251,13 +296,30 @@ public class Surface extends JPanel {
     		Ydi = y;
     		player.sendMove(new Move(new Point(Xchon, Ychon), new Point(Xdi, Ydi)));
     		
-    		computer.takeAMove();
+    		if(choionline == false){// nếu đang chơi một mình thì cho máy đi
+    			AITakeMoveThread thread = new AITakeMoveThread(computer);
+    			thread.start();
+    		}
+    		else{// nếu đang chơi online thì gửi nước đi và chờ nhận lại nước đi của người chơi
+    			
+    			// gửi nước đi đến hàng đợi 1 phần tử của listPlayer, nơi đang giữ network
+    			Mail myMOVEmail = new Mail(new PlayerInfo(enemyName), "MOVE", 
+    					new Move(new Point(Xchon, Ychon), new Point(Xdi, Ydi)).toString()); 
+    			
+    			listPlayer.setSentMOVEmail(myMOVEmail);
+    			// chờ nhận lại nước đi thông qua timer đã định nghĩa phía trên
+    			// nếu nước đi mới == null thì không làm gì, nếu có thì cho playcontroller điểu khiển
+    			
+    		}
+    		
     		
     	}
     	listposible.clear();
     	
     	repaint();
     }
+
+	
 
 
     
