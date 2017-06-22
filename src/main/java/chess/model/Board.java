@@ -244,18 +244,20 @@ public class Board {
 
 		if (curChess.getClass() == ChessKing.class) {
 			if (curChess.getTeam() == Team.WHITE) {
-				if (this.hasCastle("K")) {
+				if (this.hasCastle("K") && (this.square[5][0].getChess() == null) && (this.square[6][0].getChess() == null)) {
 					listPoint.add(new Point(6,0));
 				}
-				if (this.hasCastle("Q")) {
+				if (this.hasCastle("Q") && (this.square[1][0].getChess() == null) && (this.square[2][0].getChess() == null)
+						&& (this.square[3][0].getChess() == null)) {
 					listPoint.add(new Point(2, 0));
 				}
 			}
 			else {
-				if (this.hasCastle("k")) {
+				if (this.hasCastle("k") && (this.square[5][7].getChess() == null) && (this.square[6][7].getChess() == null)) {
 					listPoint.add(new Point(6,7));
 				}
-				if (this.hasCastle("q")) {
+				if (this.hasCastle("q") && (this.square[1][7].getChess() == null) && (this.square[2][7].getChess() == null)
+						&& (this.square[3][7].getChess() == null)) {
 					listPoint.add(new Point(2, 7));
 				}
 			}
