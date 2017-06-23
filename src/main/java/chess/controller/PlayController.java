@@ -36,13 +36,35 @@ public class PlayController {
 	}
 
 	public List<Point> getListPosibleMoveFrom(Point point) {
+		List<Point> list = new ArrayList<Point>();
 		List<Point> result = new ArrayList<Point>();
-		result.addAll(board.getListPosibleMoveFrom(point));
 		
+		list.addAll(board.getListPosibleMoveFrom(point));
+		
+		for(Point toPoint: list) {
+			if (this.checkMate(new Move(point, toPoint))) {
+				result.add(toPoint);
+			}
+		}
 		
 		return result;
 	}
 
+	private boolean checkMate(Move move) {
+		boolean result = false;
+		
+		Team lastTurn = this.getTeamTurn();
+		
+		this.sendMove(move);
+		
+		result = board.isKing_Checkmate(lastTurn);
+			
+		this.unMove();
+		
+		return result;
+	
+	}
+	
 	public void unMove() {
 		int size = listHistory.size();
 
@@ -82,20 +104,7 @@ public class PlayController {
 		}
 	}
 
-	private boolean checkMate(Move move) {
-		boolean result = false;
-		
-		Team lastTurn = this.getTeamTurn();
-		
-		this.sendMove(move);
-		
-		result = board.isKing_Checkmate(lastTurn);
-			
-		this.unMove();
-		
-		return result;
 	
-	}
 	
 	public boolean isNotWin() {
 		return board.checkNotWin() || checkPermanent();
