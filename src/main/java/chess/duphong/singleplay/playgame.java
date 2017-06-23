@@ -45,7 +45,7 @@ public class playgame extends JFrame {
 	 * Create the frame.
 	 */
 	
-	// hàm constructor cho người chơi qua LAN
+	// hàm constructor cho người chơi offline
 	public playgame(int level) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 631, 501);
@@ -74,10 +74,6 @@ public class playgame extends JFrame {
 					int reply = JOptionPane.showConfirmDialog(null,
 							"Do you want to QUIT game? ", "Quit", JOptionPane.YES_NO_OPTION);
 					 if (reply == JOptionPane.YES_OPTION) {// nếu đồng ý thoát
-						 if(Surface.isChoionline()){// nếu đang chơi online thì gửi cho đối phương biết
-							 // gửi Mail Quit 
-							 listPlayer.setSentQUIT(true);
-						 }
 						 dispose();
 					 }
 					//startgame start = new startgame();
@@ -141,7 +137,7 @@ public class playgame extends JFrame {
 
 	
 	
-	// hàm constructor cho người chơi đơn
+	// hàm constructor cho người chơi online
 	public playgame(Team playerteam,String playername,String enemyname) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 631, 501);
@@ -166,9 +162,19 @@ public class playgame extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent ke) {
 				if(ke.getKeyCode() == KeyEvent.VK_ESCAPE){ // khi nhấn phím ESC  
-					dispose();
-					startgame start = new startgame();
-					start.setVisible(true);
+					// hỏi người chơi có muốn thoát hay không
+					int reply = JOptionPane.showConfirmDialog(null,
+							"Do you want to QUIT game? ", "Quit", JOptionPane.YES_NO_OPTION);
+					 if (reply == JOptionPane.YES_OPTION) {// nếu đồng ý thoát
+						 if(Surface.isChoionline()){// nếu đang chơi online thì gửi cho đối phương biết
+							 // gửi Mail Quit 
+							 listPlayer.setSentQUIT(true);
+						 }
+						 
+						
+					 }
+					//startgame start = new startgame();
+					//start.setVisible(true);
 			    }
 			}
 		});

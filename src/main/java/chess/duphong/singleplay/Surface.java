@@ -258,7 +258,7 @@ public class Surface extends JPanel {
 
 	@Override
     public void paintComponent(Graphics g) {
-		Timer timer = new Timer(1000, new ActionListener() {
+		Timer timer = new Timer(100, new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
