@@ -139,7 +139,7 @@ public class playgame extends JFrame {
 	
 	// hàm constructor cho người chơi online
 	public playgame(Team playerteam,String playername,String enemyname) {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 631, 501);
 		setLocationRelativeTo(null);
 		JPanel panel = new Surface(playerteam,playername,enemyname);

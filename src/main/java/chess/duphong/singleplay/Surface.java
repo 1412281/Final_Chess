@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -264,6 +265,22 @@ public class Surface extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				if(choionline){// nếu đang chơi online
 					// kiểm tra xem có MOVE từ đối phương hay không
+					if(listPlayer.isReceiveQUIT() == true){ // nếu địch đã thoát
+						
+						listPlayer.setReceiveQUIT(false);
+						
+						// hiện thông báo
+						int reply= JOptionPane.showConfirmDialog(null,
+								"Your Enemy has been QUIT!!!", "Quit", JOptionPane.OK_CANCEL_OPTION);
+						
+						
+				
+					}
+						
+					
+					else{
+						}
+					
 					Move newmove = listPlayer.getEnemymove();
 					if(newmove != null){
 						player.sendMove(newmove);
@@ -271,14 +288,9 @@ public class Surface extends JPanel {
 					else{
 						return ;
 					}
+				
+				
 				}
-				if(listPlayer.isReceiveQUIT() == true){ // nếu địch đã thoát
-					// hiện thông báo
-					JOptionPane.showConfirmDialog(null,
-							"Your Enemy has been QUIT!!!", "Quit", JOptionPane.OK_CANCEL_OPTION);
-					 }
-				else{
-					}
 				repaint();
 	     }
 		});		

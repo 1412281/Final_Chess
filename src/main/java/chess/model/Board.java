@@ -296,8 +296,8 @@ public class Board {
 					if (null == this.getChessFrom(point) && (2 != Math.abs(point.getY() - fromPoint.getY()))) {
 						result.add(point);
 					}
-
-					if (2 == Math.abs(point.getY() - fromPoint.getY())) {
+					
+					if (null == this.getChessFrom(point) &&  2 == Math.abs(point.getY() - fromPoint.getY())) {
 						int x = point.getX();
 						int y = 5;
 						

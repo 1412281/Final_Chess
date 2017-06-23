@@ -140,8 +140,9 @@ public class listPlayer extends JFrame {
 					
 					Mail QUITmail = net.getMail_byTitle_IfExist("QUIT");
 					if(QUITmail != null ){// nếu có thư nào là nước đi mới thì đưa vào hòm thư cục bộ 
+						System.out.println("Doi phuong da thoat");
 						setReceiveQUIT(true);
-						
+						isBusy = false;
 					}
 					
 					
@@ -166,8 +167,10 @@ public class listPlayer extends JFrame {
 						try {
 							net.sendMail(new Mail(enemy, "QUIT",""));
 							System.out.println("da gui QUIT"+enemy.getIP());
-							Thread.sleep(2000);
+							listPlayer.setSentQUIT(false);
 							
+							game.dispose();
+							isBusy = false;
 							
 							//System.exit(DISPOSE_ON_CLOSE);
 						} catch (InterruptedException e1) {
@@ -195,7 +198,7 @@ public class listPlayer extends JFrame {
 							 try {
 								net.sendAccept(offermail.getSender());
 								enemy = offermail.getSender();
-								playgame game = new playgame(Team.BLACK, "Your Name",offermail.getSender().getIP());
+								game = new playgame(Team.BLACK, "Your Name",offermail.getSender().getIP());
 								game.setVisible(true);
 							} catch (InterruptedException e1) {
 								// TODO Auto-generated catch block
@@ -213,7 +216,7 @@ public class listPlayer extends JFrame {
 					// đổi trạng thái 
 					isBusy = true;
 					enemy = acceptmail.getSender();
-					playgame game = new playgame(Team.WHITE, "Your Name",acceptmail.getSender().getIP());
+					game = new playgame(Team.WHITE, "Your Name",acceptmail.getSender().getIP());
 					game.setVisible(true);
 				}
 
@@ -275,6 +278,8 @@ public class listPlayer extends JFrame {
 	private static boolean receiveQUIT = false;
 	private static Move enemymove = null;
 	private PlayerInfo enemy = null;
+	
+	playgame game = null;
 	
 
 }
