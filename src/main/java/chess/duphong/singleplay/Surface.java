@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -58,7 +59,15 @@ public class Surface extends JPanel {
 	int Xchon,Ychon,Xdi,Ydi ;
 	boolean dangchon = false;
 	boolean dangdi = false;
-	boolean choionline = false;
+	private static boolean choionline = false;
+	public static boolean isChoionline() {
+		return choionline;
+	}
+
+	public void setChoionline(boolean choionline) {
+		this.choionline = choionline;
+	}
+
 	private String playerName = "";
 	private String enemyName = "";
 	private Team yourTeam = Team.WHITE; // mặc định là team white, nếu khởi tạo đi sau thì team BLACK
@@ -259,10 +268,19 @@ public class Surface extends JPanel {
 					if(newmove != null){
 						player.sendMove(newmove);
 					}
-				}
-				
-				
-				
+					else{
+						return ;
+					}
+					
+					if(listPlayer.isReceiveQUIT() == true){ // nếu địch đã thoát
+						// hỏi người chơi có muốn thoát hay không
+						JOptionPane.showConfirmDialog(null,
+								"Your Enemy has been QUIT!!!", "Quit", JOptionPane.OK_CANCEL_OPTION);
+						 }
+					}
+					else{
+						return ;
+					}
 				repaint();
 			}
 		});		

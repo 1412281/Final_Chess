@@ -68,6 +68,7 @@ public class listPlayer extends JFrame {
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
+		@SuppressWarnings("rawtypes")
 		DefaultListModel model = new DefaultListModel();
 		
 		JList list = new JList(model);
@@ -126,18 +127,30 @@ public class listPlayer extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {			
 				if(isBusy){ // xét trong lúc vô trận
+					
+	   /// QUÁ TRÌNH NHẬN THÔNG TIN KHI TRONG TRẬN
 					// check hòm thư để xem có MOVE nào không
-					Mail MOVEmail =null;
-					MOVEmail = net.getMail_byTitle_IfExist("MOVE");
+					//Mail MOVEmail =null;
+					Mail MOVEmail = net.getMail_byTitle_IfExist("MOVE");
 					if(MOVEmail != null ){// nếu có thư nào là nước đi mới thì đưa vào hòm thư cục bộ 
 						Move newmove = new Move(MOVEmail.getContent()); // lấy nội dung và ép kiểu
 						listPlayer.setEnemymove(newmove);
 							
 					}
+					
+					Mail QUITmail = net.getMail_byTitle_IfExist("QUIT");
+					if(QUITmail != null ){// nếu có thư nào là nước đi mới thì đưa vào hòm thư cục bộ 
+						setReceiveQUIT(true);
+							
+					}
+					
+					
+					
+		/// QUÁ TRÌNH KIỂM TRA VÀ GỬI THÔNG TIN KHI TRONG TRẬN
 					// check hàng đợi gửi thư xem có MOVE nào cần gửi không
-					Mail sentMOVEmail = null;
-					sentMOVEmail = getSentMOVEmail();
-					if(sentMOVEmail != null ){// nếu có thư nào là nước đi mới thì gửi đi
+					//Mail sentMOVEmail = null;
+					Mail sentmail = getSentMOVEmail();
+					if(sentmail != null ){// nếu có thư nào là nước đi mới thì gửi đi
 							try {
 								net.sendMail(sentMOVEmail);
 								System.out.println(sentMOVEmail.getContent());
@@ -146,6 +159,19 @@ public class listPlayer extends JFrame {
 								e1.printStackTrace();
 							}
 					}
+					
+					
+					
+					if(sentQUIT == true ){//nếu mình tự thoát thì gửi thông báo cho đối phương
+						try {
+							net.sendMail(new Mail(enemy, "QUIT",""));
+						} catch (InterruptedException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+							
+					}
+					
 				}
 				
 				
@@ -180,16 +206,11 @@ public class listPlayer extends JFrame {
 				if(acceptmail != null ){// nếu có accept thì vô trận ngay
 					// đổi trạng thái 
 					isBusy = true;
-					
+					enemy = acceptmail.getSender();
 					playgame game = new playgame(Team.WHITE, "Your Name",acceptmail.getSender().getIP());
 					game.setVisible(true);
-				
 				}
-				
-				
-				
-				
-				
+
 			}
 		});
 		timercheckOffer.start();
@@ -222,11 +243,32 @@ public class listPlayer extends JFrame {
 	}
 
 
+	public static boolean isSentQUIT() {
+		return sentQUIT;
+	}
+
+	public static void setSentQUIT(boolean sentQUIT) {
+		listPlayer.sentQUIT = sentQUIT;
+	}
+
+
+	public static boolean isReceiveQUIT() {
+		return receiveQUIT;
+	}
+
+	public static void setReceiveQUIT(boolean receiveQUIT) {
+		listPlayer.receiveQUIT = receiveQUIT;
+	}
+
+
 	private boolean isBusy = false;
 	private List<PlayerInfo> listnguoichoi = null;
-	private static Mail sentMOVEmail = null;
 	private NetworkController net;
+	private static Mail sentMOVEmail = null;
+	private static boolean sentQUIT = false;
+	private static boolean receiveQUIT = false;
 	private static Move enemymove = null;
+	private PlayerInfo enemy = null;
 	
 
 }

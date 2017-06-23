@@ -42,7 +42,7 @@ public class PlayController {
 		list.addAll(board.getListPosibleMoveFrom(point));
 		
 		for(Point toPoint: list) {
-			if (this.checkMate(new Move(point, toPoint))) {
+			if (!this.checkMate(new Move(point, toPoint))) {
 				result.add(toPoint);
 			}
 		}

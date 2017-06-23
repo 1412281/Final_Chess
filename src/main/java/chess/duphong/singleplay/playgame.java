@@ -6,9 +6,11 @@ import java.awt.Graphics;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import chess.duphong.multiplay.listPlayer;
 import chess.duphong.start.startgame;
 import chess.model.Chess.Team;
 
@@ -68,9 +70,18 @@ public class playgame extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent ke) {
 				if(ke.getKeyCode() == KeyEvent.VK_ESCAPE){ // khi nhấn phím ESC  
-					dispose();
-					startgame start = new startgame();
-					start.setVisible(true);
+					// hỏi người chơi có muốn thoát hay không
+					int reply = JOptionPane.showConfirmDialog(null,
+							"Do you want to QUIT game? ", "Quit", JOptionPane.YES_NO_OPTION);
+					 if (reply == JOptionPane.YES_OPTION) {// nếu đồng ý thoát
+						 if(Surface.isChoionline()){// nếu đang chơi online thì gửi cho đối phương biết
+							 // gửi Mail Quit 
+							 listPlayer.setSentQUIT(true);
+						 }
+						 dispose();
+					 }
+					//startgame start = new startgame();
+					//start.setVisible(true);
 			    }
 			}
 		});
