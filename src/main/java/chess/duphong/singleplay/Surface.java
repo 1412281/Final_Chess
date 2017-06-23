@@ -93,25 +93,6 @@ public class Surface extends JPanel {
 	}
 
 	private void doDrawing(Graphics g) {
-		if ((player.checkWin() != null)) {
-			System.out.println("KET thuc");
-			timer.stop();
-			if (player.checkWin() == this.yourTeam) {
-				JOptionPane.showConfirmDialog(null,
-						"You WIN", "Game Over", JOptionPane.OK_OPTION);
-			}
-			else {
-				JOptionPane.showConfirmDialog(null,
-						"You LOSE", "Game Over", JOptionPane.OK_OPTION);
-			}
-			parrent.dispose();
-		}	
-		if (player.isNotWin()) {
-			timer.stop();
-			JOptionPane.showConfirmDialog(null,
-					"", "Game Over", JOptionPane.OK_OPTION);
-			parrent.dispose();
-		}
 		Square[][] currentMatrix = player.getBoardSquare();
 		LoadAllBoard();
 		Graphics2D g2d = (Graphics2D) g;
@@ -389,7 +370,25 @@ public class Surface extends JPanel {
 
 		repaint();
 		
-																		// ô
+		if ((player.checkWin() != null)) {
+			System.out.println("KET thuc");
+			timer.stop();
+			if (player.checkWin() == this.yourTeam) {
+				JOptionPane.showConfirmDialog(null,
+						"You WIN", "Game Over", JOptionPane.OK_OPTION);
+			}
+			else {
+				JOptionPane.showConfirmDialog(null,
+						"You LOSE", "Game Over", JOptionPane.OK_OPTION);
+			}
+			parrent.dispose();
+		}	
+		if (player.isNotWin()) {
+			timer.stop();
+			JOptionPane.showConfirmDialog(null,
+					"", "Game Over", JOptionPane.OK_OPTION);
+			parrent.dispose();
+		}																// ô
 				
 	}
 
