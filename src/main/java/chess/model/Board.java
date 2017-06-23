@@ -216,6 +216,15 @@ public class Board {
 			this.fullMove++;
 		}
 		
+		if (chessFrom.getClass() == ChessPawn.class) {
+			if (move.getTo().getY() == 0) {
+				square[move.getFrom().getX()][move.getFrom().getY()].setChess(new ChessQueen(Team.BLACK));
+			}
+			else if (move.getTo().getY() == 7)
+			{
+				square[move.getFrom().getX()][move.getFrom().getY()].setChess(new ChessQueen(Team.WHITE));
+			}
+		}
 //		action move
 		actionMove(move);
 
