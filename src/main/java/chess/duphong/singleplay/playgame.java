@@ -25,9 +25,8 @@ import java.awt.Color;
 
 public class playgame extends JFrame {
 
-	/**
-	 * Launch the application.
-	 */
+	public static boolean endGame = false;
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -44,14 +43,16 @@ public class playgame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	
+	public void disposePlaygame() {
+		dispose();
+	}
 	// hàm constructor cho người chơi offline
 	public playgame(int level) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 631, 501);
 		setLocationRelativeTo(null);
 		JPanel panel = new Surface(level);
-		
+		((Surface) panel).parrent = this;
 		getContentPane().add(panel, BorderLayout.CENTER);
 		
 		this.addKeyListener(new KeyListener() {
@@ -143,7 +144,7 @@ public class playgame extends JFrame {
 		setBounds(100, 100, 631, 501);
 		setLocationRelativeTo(null);
 		JPanel panel = new Surface(playerteam,playername,enemyname);
-		
+		((Surface) panel).parrent = this;
 		getContentPane().add(panel, BorderLayout.CENTER);
 		
 		this.addKeyListener(new KeyListener() {

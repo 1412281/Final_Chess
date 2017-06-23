@@ -389,18 +389,7 @@ public class Board {
 		return square[point.getX()][point.getY()].getChess();
 	}
 
-	public Team checkWin() {
-		Team team = Team.WHITE;
-
-		if (isKing_Checkmate(team) && !haveMove(team))
-			return team;
-
-		team = Team.BLACK;
-		if (isKing_Checkmate(team) && !haveMove(team))
-			return team;
-
-		return null;
-	}
+	
 	
 	
 

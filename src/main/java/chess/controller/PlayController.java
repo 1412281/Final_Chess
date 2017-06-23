@@ -96,12 +96,16 @@ public class PlayController {
 	}
 
 	public Team checkWin() {
-		Team teamWin = board.checkWin();
-		if (teamWin == null) {
-			return null;
-		} else {
-			return teamWin;
-		}
+		Team team = Team.WHITE;
+
+		if (this.getListMoveAllTeam(team).isEmpty())
+			return Team.BLACK;
+
+		team = Team.BLACK;
+		if (this.getListMoveAllTeam(team).isEmpty())
+			return Team.WHITE;
+
+		return null;
 	}
 
 	

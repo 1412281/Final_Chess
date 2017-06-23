@@ -81,16 +81,16 @@ public class AI {
 			tempPlayController.unMove();
 		}
 
-		Square[][] sq = playController.getBoardSquare();
-		List<Point> listTeam = playController.getListTeam(this.getTeam());
-		System.out.print("Team: ");
-		for (int i = 0; i < listTeam.size(); i++)
-			System.out.print(sq[listTeam.get(i).getX()][listTeam.get(i).getY()].getChess().toString() + " ");
-		System.out.print("\n" + sq[bestMove.getFrom().getX()][bestMove.getFrom().getY()].getChess().toString());
-		System.out.println(" " + bestMove.toString());
-		System.out.println("");
+//		Square[][] sq = playController.getBoardSquare();
+//		List<Point> listTeam = playController.getListTeam(this.getTeam());
+//		System.out.print("Team: ");
+//		for (int i = 0; i < listTeam.size(); i++)
+//			System.out.print(sq[listTeam.get(i).getX()][listTeam.get(i).getY()].getChess().toString() + " ");
+//		System.out.print("\n" + sq[bestMove.getFrom().getX()][bestMove.getFrom().getY()].getChess().toString());
+//		System.out.println(" " + bestMove.toString());
+//		System.out.println("");
 		this.lastMove = bestMove;
-		playController.sendMove(bestMove);
+		if (bestMove != null) playController.sendMove(bestMove);
 
 	}
 
