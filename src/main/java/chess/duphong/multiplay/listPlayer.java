@@ -152,8 +152,8 @@ public class listPlayer extends JFrame {
 					Mail sentmail = getSentMOVEmail();
 					if(sentmail != null ){// nếu có thư nào là nước đi mới thì gửi đi
 							try {
-								net.sendMail(sentMOVEmail);
-								System.out.println(sentMOVEmail.getContent());
+								net.sendMail(sentmail);
+								
 							} catch (InterruptedException e1) {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();

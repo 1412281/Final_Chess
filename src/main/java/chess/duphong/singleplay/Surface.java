@@ -271,18 +271,16 @@ public class Surface extends JPanel {
 					else{
 						return ;
 					}
-					
-					if(listPlayer.isReceiveQUIT() == true){ // nếu địch đã thoát
-						// hỏi người chơi có muốn thoát hay không
-						JOptionPane.showConfirmDialog(null,
-								"Your Enemy has been QUIT!!!", "Quit", JOptionPane.OK_CANCEL_OPTION);
-						 }
-					}
-					else{
-						return ;
+				}
+				if(listPlayer.isReceiveQUIT() == true){ // nếu địch đã thoát
+					// hiện thông báo
+					JOptionPane.showConfirmDialog(null,
+							"Your Enemy has been QUIT!!!", "Quit", JOptionPane.OK_CANCEL_OPTION);
+					 }
+				else{
 					}
 				repaint();
-			}
+	     }
 		});		
 		timer.start();
         super.paintComponent(g);
