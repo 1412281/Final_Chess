@@ -42,7 +42,7 @@ import chess.model.Chess.Team;
  * */
 public class Surface extends JPanel {
 	 
-	
+
 	
 	//Các Image xuất hiện trong bàn cờ
 	private BufferedImage banco;
@@ -294,11 +294,20 @@ public class Surface extends JPanel {
     		dangdi = true;
     		Xdi = x;
     		Ydi = y;
+    		
+    		System.out.println("WHITE:");
+    		
     		player.sendMove(new Move(new Point(Xchon, Ychon), new Point(Xdi, Ydi)));
+    		
+    		
+    		
+    		
     		
     		if(choionline == false){// nếu đang chơi một mình thì cho máy đi
     			AITakeMoveThread thread = new AITakeMoveThread(computer);
     			thread.start();
+    			System.out.println(player.getBoard().getFullMove());
+    			
     		}
     		else{// nếu đang chơi online thì gửi nước đi và chờ nhận lại nước đi của người chơi
     			

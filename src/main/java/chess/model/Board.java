@@ -138,7 +138,7 @@ public class Board {
 			}
 			break;
 		}
-		return true;
+		return false;
 	}
 
 	public void move(Move move) {
@@ -150,6 +150,25 @@ public class Board {
 		
 //		check castle
 		if (chessFrom.getClass() == ChessKing.class) {
+			
+				
+			if (move.getTo().equal(new Point(2, 0)) && this.hasCastle("Q")) {
+				this.actionMove(new Move(new Point(0,0), new Point(3,0)));
+				
+			}
+			if (move.getTo().equal(new Point(6, 0)) && this.hasCastle("K")) {
+				this.actionMove(new Move(new Point(7,0), new Point(5,0)));
+				
+			}
+			if (move.getTo().equal(new Point(2, 7)) && this.hasCastle("q")) {
+				this.actionMove(new Move(new Point(0,7), new Point(3,7)));	
+				
+			}
+			if (move.getTo().equal(new Point(6, 7)) && this.hasCastle("k")) {
+				this.actionMove(new Move(new Point(7,7), new Point(5,7)));	
+				
+			}
+			
 			if (chessFrom.getTeam() == Team.BLACK) {
 				this.castle.setk(false);
 				this.castle.setq(false);
@@ -157,23 +176,6 @@ public class Board {
 			else {
 				this.castle.setK(false);
 				this.castle.setQ(false);
-			}
-			
-			if (move.getTo().equal(new Point(2, 0))) {
-				this.move(new Move(new Point(0,0), new Point(3,0)));
-				nextTurn();
-			}
-			if (move.getTo().equal(new Point(6, 0))) {
-				this.move(new Move(new Point(7,0), new Point(5,0)));
-				nextTurn();
-			}
-			if (move.getTo().equal(new Point(2, 7))) {
-				this.move(new Move(new Point(0,7), new Point(3,7)));	
-				nextTurn();
-			}
-			if (move.getTo().equal(new Point(6, 7))) {
-				this.move(new Move(new Point(7,7), new Point(5,7)));	
-				nextTurn();
 			}
 				
 		}
@@ -215,10 +217,16 @@ public class Board {
 		}
 		
 //		action move
+		actionMove(move);
+
+	}
+	
+	private void actionMove(Move move) {
+		
+		Chess chessFrom = this.getChessFrom(move.getFrom());
 		this.square[move.getTo().getX()][move.getTo().getY()] = new Square(chessFrom);
 
 		this.square[move.getFrom().getX()][move.getFrom().getY()].setChess(null);
-
 	}
 
 	private void nextTurn() {
